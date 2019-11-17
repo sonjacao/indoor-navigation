@@ -1,0 +1,62 @@
+# Projektantrag
+
+|===
+|*Projekttitel:*      |Indoor Wayfinder
+|*Projektleiter:*     |Halil Bahar
+|*Projektmitglieder:* |Sonja Cao
+|*Auftraggeber:*      |Prof. Mag. Dr. Thomas Stütz
+|*Projektart:*        |IT-Projekt
+|*Erstellt am:* |08.11.2019
+|===
+
+
+=== Ausgangssituation
+
+Täglich besuchen Schülerinnen, Schüler sowie Lehrkräfte und zahlreiche andere Personen die HTBLA Leonding.
+Die Schule besteht aus einem Untergeschoss, einem Erdgeschoss und zwei Obergeschossen. Um in ein anderes Stockwerk
+zu gelangen, stehen Treppen und ein Lift zur Verfügung. Außerdem gibt es einen linken und einen rechten Flügel.
+Die einzelnen Klassenzimmer und Räume sind mit einem Schild beschriftet. Damit sind sowohl Klassenräume als
+auch Lehrerzimmer, das Sekretariat, EDV-Sääle, Werkstätten und einige mehr gemeint.
+Auf den Stundenplänen ist für jede Einheit angegeben, in welchem Raum diese stattfindet. Dementsprechend
+suchen und begeben sich Schülerinnen, Schüler und Lehrkräfte in den jeweiligen Unterrichtsraum. +
+Bei Veranstaltungen wie beispielsweise dem Tag und Abend der offenen Tür oder dem Firmeninformationstag kommen
+und gehen viele Besucher und Unternehmer, die eventuell noch nie das Gebäude betreten haben und sich erst darüber
+informieren müssen, wo sie einen bestimmten Raum finden können.
+
+=== Ist-Zustand
+
+Einige Räume wie EDV-Sääle sind mit beispielsweise 'E73-a' gekennzeichnet, im Gespräch lautet der Name allerdings
+in diesem Fall 'EDV 7'. Deswegen fragen sich viele Personen, wo sich das Zimmer befindet beziehungsweise was die Raumbezeichnung
+ist. Hierbei deutet das erste Zeichen auf das Stockwerk hin.
+
+- *U* für das Untergeschoss
+- *E* für Erdgeschoss
+- *1* für den ersten Stock
+- *2* für den zweiten Stock
+
+Zur besseren Orientierung ist bei einigen Stiegenhäusern ein Zettel aufgeklebt, auf dem steht welche Raumnummern sich
+im jeweiligen Flügel befinden.
+
+
+=== Problemstellung
+
+Die Suche nach einem bestimmten Raum nimmt oftmals einige Zeit in Anspruch. Dass ein Raum oft mehrere Bezeichnungen hat,
+erschwert die Orientierung und Suche vieler Besucher. Außerdem stört es viele Personen, wenn sie sich im richtigen
+Stockwerk, jedoch im falschen Flügel befinden, da sie dann sozusagen von einem Ende ans andere Ende gehen müssen.
+Des Weiteren müssen sich Schüler über die Schul-Homepage darüber informieren, wo sich welches Lehrerzimmer befindet, da
+diese nicht im Stundenplan eingetragen sind.
+
+=== Aufgabenstellung
+
+Es soll eine Applikation entwickelt werden, die auf einem Gebäudeplan den kürzesten Weg von einem Standort zu einem anderen
+anzeigt und somit Personen schnellstmöglich und einfach an ihren Wunschort führen. Die Anweisungen zum Ziel sollen Stiegen,
+Ecken und Lifte berücksichtigen.
+
+=== Nutzen
+
+Mit Hilfe der Applikation ist es möglich, dass etliche Besucherinnen und Besucher der Schule den Weg zur ihrem Wunschort
+in nur wenigen Minuten erreichen. Vor allem das Sekretariat wird damit mehr entlastet, da sich Eltern dadurch nicht in vielen
+Fällen dorthin begeben, um nach der Position des Raumes zu fragen. +
+Da auch Firmen und Unternehmer das Gebäude betreten, können auch sie sich ebenso leichter orientieren. +
+Ein mögliches auftretendes Szenario ist, dass eine Person es eventuell noch knapp zu einem Termin schaffen möchte oder Schülerinnen
+und Schüler gerade noch pünktlich zum Unterricht erscheinen möchten, was mittels dieser Applikation möglich wäre.
