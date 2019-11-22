@@ -2,6 +2,10 @@ package at.htl.indoornav.control;
 
 import at.htl.indoornav.entity.MapNode;
 import at.htl.indoornav.repository.DatabaseRespository;
+import at.htl.indoornav.serialization.MapNodeDeserializer;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSerializationContext;
 import io.quarkus.runtime.StartupEvent;
 import org.neo4j.ogm.cypher.ComparisonOperator;
 import org.neo4j.ogm.cypher.Filter;
@@ -29,14 +33,8 @@ public class InitBean {
         JsonArray jsonArray = readJsonFromFile("data.json");
 
         jsonArray.forEach(jsonValue -> {
-            JsonObject jsonObject = jsonValue.asJsonObject();
-
-            MapNode mapNode = new MapNode();
-            mapNode.setType(jsonObject.getString("type"));
-            mapNode.setName(jsonObject.getString("name"));
-            mapNode.setFloor(jsonObject.getString("floor"));
-            mapNode.setxCoordinate(Double.valueOf(jsonObject.getJsonNumber("xCoordinate").toString()));
-            mapNode.setyCoordinate(Double.valueOf(jsonObject.getJsonNumber("yCoordinate").toString()));
+            Gson gson = new GsonBuilder().registerTypeAdapter(MapNode.class, new MapNodeDeserializer()).create();
+            MapNode mapNode = gson.fromJson(jsonValue.toString(), MapNode.class);
 
             if (!nodeExists(mapNode)) {
                 DatabaseRespository.getINSTANCE().getSession().save(mapNode);
@@ -54,7 +52,7 @@ public class InitBean {
      * @return true if the node exists, else return false if it does not exist
      */
     private boolean nodeExists(MapNode mapNode) {
-        Filter filter = new Filter("name", ComparisonOperator.EQUALS, mapNode.getName());
+        Filter filter = new Filter("nodeId", ComparisonOperator.EQUALS, mapNode.getNodeId());
 
         Collection<MapNode> result = DatabaseRespository.getINSTANCE().getSession().loadAll(MapNode.class, filter);
 
