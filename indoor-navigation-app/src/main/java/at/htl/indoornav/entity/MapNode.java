@@ -13,6 +13,8 @@ public class MapNode {
     private Long id;
 
     @Property
+    private Long nodeId;
+    @Property
     private String type;
     @Property
     private String name;
@@ -41,6 +43,15 @@ public class MapNode {
 //    public void setId(Long id) {
 //        this.id = id;
 //    }
+
+
+    public Long getNodeId() {
+        return nodeId;
+    }
+
+    public void setNodeId(Long nodeId) {
+        this.nodeId = nodeId;
+    }
 
     public String getType() {
         return type;
@@ -84,6 +95,6 @@ public class MapNode {
 
     @Override
     public String toString() {
-        return String.format("%s '%s': floor: %s, x-coordinate: %f, y-coordinate: %f", type, name, type, xCoordinate, yCoordinate);
+        return String.format("Node %d - %s '%s': floor: %s, x-coordinate: %f, y-coordinate: %f", nodeId, type, name, type, xCoordinate, yCoordinate);
     }
 }
