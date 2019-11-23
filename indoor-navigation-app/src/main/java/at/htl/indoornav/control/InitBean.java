@@ -69,7 +69,7 @@ public class InitBean {
 
     private void readMapNodeFromFile(String mapNodeFilename) {
         Gson gson = new GsonBuilder().registerTypeAdapter(MapNode.class, new MapNodeDeserializer()).create();
-        JsonArray jsonArray = readJsonFromFile("data.json");
+        JsonArray jsonArray = readJsonFromFile(mapNodeFilename);
 
         jsonArray.forEach(jsonValue -> {
             MapNode mapNode = gson.fromJson(jsonValue.toString(), MapNode.class);
@@ -83,8 +83,8 @@ public class InitBean {
         });
     }
 
-    private void readNodeRelationFromFile(String relationFilename) {
-        JsonArray jsonArray = readJsonFromFile("relations.json");
+    private void readNodeRelationFromFile(String relationshipFilename) {
+        JsonArray jsonArray = readJsonFromFile(relationshipFilename);
 
         jsonArray.forEach(jsonValue -> {
             MapNode startNode = new MapNode();
