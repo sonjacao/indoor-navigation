@@ -1,11 +1,11 @@
 package at.htl.indoornav.control;
 
 import at.htl.indoornav.entity.MapNode;
+import at.htl.indoornav.entity.NodeRelation;
 import at.htl.indoornav.repository.DatabaseRespository;
 import at.htl.indoornav.serialization.MapNodeDeserializer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonSerializationContext;
 import io.quarkus.runtime.StartupEvent;
 import org.neo4j.ogm.cypher.ComparisonOperator;
 import org.neo4j.ogm.cypher.Filter;
@@ -14,7 +14,6 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.json.Json;
 import javax.json.JsonArray;
-import javax.json.JsonObject;
 import javax.json.JsonReader;
 import java.io.InputStreamReader;
 import java.util.Collection;
@@ -29,11 +28,11 @@ public class InitBean {
      * @param event
      */
     void init(@Observes StartupEvent event) {
-//        MapNode mapNode = new MapNode("Lift", "Lift OG", "1 OG", 149.0, 200.0);
+
+        Gson gson = new GsonBuilder().registerTypeAdapter(MapNode.class, new MapNodeDeserializer()).create();
         JsonArray jsonArray = readJsonFromFile("data.json");
 
         jsonArray.forEach(jsonValue -> {
-            Gson gson = new GsonBuilder().registerTypeAdapter(MapNode.class, new MapNodeDeserializer()).create();
             MapNode mapNode = gson.fromJson(jsonValue.toString(), MapNode.class);
 
             if (!nodeExists(mapNode)) {
@@ -43,6 +42,8 @@ public class InitBean {
                 System.out.println("Node already exists");
             }
         });
+
+        readNodeRelationFromFile("relations.json");
     }
 
     /**
@@ -78,5 +79,45 @@ public class InitBean {
         )) {
             return jsonReader.readArray();
         }
+    }
+
+    private void readNodeRelationFromFile(String relationFilename) {
+        JsonArray jsonArray = readJsonFromFile("relations.json");
+
+        jsonArray.forEach(jsonValue -> {
+            MapNode startNode = new MapNode();
+            MapNode endNode = new MapNode();
+            Collection<MapNode> filterResult;
+
+            // load start node
+            Filter filter = new Filter("nodeId",
+                    ComparisonOperator.EQUALS,
+                    (jsonValue.asJsonObject().getJsonObject("startNode").getInt("nodeId"))
+            );
+            filterResult = DatabaseRespository.getINSTANCE().getSession().loadAll(MapNode.class, filter);
+
+            if (filterResult.iterator().hasNext()) {
+                startNode = filterResult.iterator().next();
+            }
+
+            // load end node
+            filter = new Filter("nodeId",
+                    ComparisonOperator.EQUALS,
+                    (jsonValue.asJsonObject().getJsonObject("endNode").getInt("nodeId"))
+            );
+            filterResult = DatabaseRespository.getINSTANCE().getSession().loadAll(MapNode.class, filter);
+
+            if (filterResult.iterator().hasNext()) {
+                endNode = filterResult.iterator().next();
+            }
+
+            NodeRelation nodeRelation = new NodeRelation();
+            nodeRelation.setStartNode(startNode);
+            nodeRelation.setEndNode(endNode);
+            nodeRelation.setLength(
+                    nodeRelation.calculateLength(startNode,endNode)
+            );
+            DatabaseRespository.getINSTANCE().getSession().save(nodeRelation);
+        });
     }
 }
