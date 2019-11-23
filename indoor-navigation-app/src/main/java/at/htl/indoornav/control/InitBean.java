@@ -28,21 +28,7 @@ public class InitBean {
      * @param event
      */
     void init(@Observes StartupEvent event) {
-
-        Gson gson = new GsonBuilder().registerTypeAdapter(MapNode.class, new MapNodeDeserializer()).create();
-        JsonArray jsonArray = readJsonFromFile("data.json");
-
-        jsonArray.forEach(jsonValue -> {
-            MapNode mapNode = gson.fromJson(jsonValue.toString(), MapNode.class);
-
-            if (!nodeExists(mapNode)) {
-                DatabaseRespository.getINSTANCE().getSession().save(mapNode);
-                System.out.println(mapNode + " created");
-            } else {
-                System.out.println("Node already exists");
-            }
-        });
-
+        readMapNodeFromFile("data.json");
         readNodeRelationFromFile("relations.json");
     }
 
@@ -81,6 +67,22 @@ public class InitBean {
         }
     }
 
+    private void readMapNodeFromFile(String mapNodeFilename) {
+        Gson gson = new GsonBuilder().registerTypeAdapter(MapNode.class, new MapNodeDeserializer()).create();
+        JsonArray jsonArray = readJsonFromFile("data.json");
+
+        jsonArray.forEach(jsonValue -> {
+            MapNode mapNode = gson.fromJson(jsonValue.toString(), MapNode.class);
+
+            if (!nodeExists(mapNode)) {
+                DatabaseRespository.getINSTANCE().getSession().save(mapNode);
+                System.out.println(mapNode + " created");
+            } else {
+                System.out.println("Node already exists");
+            }
+        });
+    }
+
     private void readNodeRelationFromFile(String relationFilename) {
         JsonArray jsonArray = readJsonFromFile("relations.json");
 
@@ -115,7 +117,7 @@ public class InitBean {
             nodeRelation.setStartNode(startNode);
             nodeRelation.setEndNode(endNode);
             nodeRelation.setLength(
-                    nodeRelation.calculateLength(startNode,endNode)
+                    nodeRelation.calculateLength(startNode, endNode)
             );
             DatabaseRespository.getINSTANCE().getSession().save(nodeRelation);
         });
