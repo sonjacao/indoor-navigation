@@ -28,7 +28,8 @@ public class MapNode {
     public MapNode() {
     }
 
-    public MapNode(String type, String name, String floor, Double xCoordinate, Double yCoordinate) {
+    public MapNode(Long nodeId, String type, String name, String floor, Double xCoordinate, Double yCoordinate) {
+        this.nodeId = nodeId;
         this.type = type;
         this.name = name;
         this.floor = floor;
