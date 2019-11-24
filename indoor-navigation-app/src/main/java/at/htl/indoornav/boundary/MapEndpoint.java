@@ -2,6 +2,8 @@ package at.htl.indoornav.boundary;
 
 import at.htl.indoornav.entity.MapNode;
 import at.htl.indoornav.repository.DatabaseRespository;
+import org.neo4j.ogm.cypher.ComparisonOperator;
+import org.neo4j.ogm.cypher.Filter;
 import org.neo4j.ogm.session.Session;
 
 import javax.ws.rs.*;
@@ -22,5 +24,18 @@ public class MapEndpoint {
         return Response
                 .ok(mapNodeCollection)
                 .build();
+    }
+
+    @GET
+    @Path("{floor}")
+    public Response getMapNodesByFloor(@PathParam("floor") String floor) {
+        Filter filter = new Filter("floor", ComparisonOperator.EQUALS, floor);
+        Collection<MapNode> mapNodeCollection = session.loadAll(MapNode.class, filter);
+        if (mapNodeCollection != null) {
+            return  Response
+                    .ok(mapNodeCollection)
+                    .build();
+        }
+        return Response.noContent().build();
     }
 }
