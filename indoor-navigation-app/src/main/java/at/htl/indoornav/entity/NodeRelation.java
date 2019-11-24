@@ -61,4 +61,9 @@ public class NodeRelation {
         }
         return Math.sqrt(lengthX + lengthY);
     }
+
+    @Override
+    public String toString() {
+        return startNode.getName() + " connects to " + endNode.getName();
+    }
 }
