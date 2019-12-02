@@ -9,6 +9,8 @@ import com.google.gson.GsonBuilder;
 import io.quarkus.runtime.StartupEvent;
 import org.neo4j.ogm.cypher.ComparisonOperator;
 import org.neo4j.ogm.cypher.Filter;
+import org.neo4j.ogm.model.Result;
+import org.neo4j.ogm.session.Session;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
@@ -17,10 +19,14 @@ import javax.json.JsonArray;
 import javax.json.JsonReader;
 import java.io.InputStreamReader;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 @ApplicationScoped
 public class InitBean {
+
+    private Session session = DatabaseRespository.getINSTANCE().getSession();
 
     /**
      * Fill database
@@ -28,6 +34,7 @@ public class InitBean {
      * @param event
      */
     void init(@Observes StartupEvent event) {
+//        session.deleteAll(MapNode.class);
         readMapNodeFromFile("data.json");
         readNodeRelationFromFile("relations.json");
     }
@@ -41,15 +48,30 @@ public class InitBean {
     private boolean nodeExists(MapNode mapNode) {
         Filter filter = new Filter("nodeId", ComparisonOperator.EQUALS, mapNode.getNodeId());
 
-        Collection<MapNode> result = DatabaseRespository.getINSTANCE().getSession().loadAll(MapNode.class, filter);
+        Collection<MapNode> result = session.loadAll(MapNode.class, filter);
 
         Iterator<MapNode> iterator = result.iterator();
         while (iterator.hasNext()) {
-            MapNode currentMapNode = DatabaseRespository.getINSTANCE().getSession().load(MapNode.class, iterator.next().getId());
+            MapNode currentMapNode = session.load(MapNode.class, iterator.next().getId());
             if (currentMapNode != null) {
                 return true;
             }
         }
+        return false;
+    }
+
+    private boolean relationshipExists(MapNode startNode, MapNode endNode) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("sId", startNode.getNodeId());
+        params.put("eId", endNode.getNodeId());
+        String checkQuery = "MATCH  (s:MapNode {nodeId: {sId}}), (e:MapNode {nodeId: {eId}}) " +
+                "RETURN EXISTS( (s)-[:CONNECTS_TO]-(e) )";
+        Result result = session.query(checkQuery, params);
+
+        if (result.iterator().hasNext()) {
+            return true;
+        }
+
         return false;
     }
 
@@ -75,7 +97,7 @@ public class InitBean {
             MapNode mapNode = gson.fromJson(jsonValue.toString(), MapNode.class);
 
             if (!nodeExists(mapNode)) {
-                DatabaseRespository.getINSTANCE().getSession().save(mapNode);
+                session.save(mapNode);
                 System.out.println(mapNode + " created");
             } else {
                 System.out.println("Node already exists");
@@ -96,7 +118,7 @@ public class InitBean {
                     ComparisonOperator.EQUALS,
                     (jsonValue.asJsonObject().getJsonObject("startNode").getInt("nodeId"))
             );
-            filterResult = DatabaseRespository.getINSTANCE().getSession().loadAll(MapNode.class, filter);
+            filterResult = session.loadAll(MapNode.class, filter);
 
             if (filterResult.iterator().hasNext()) {
                 startNode = filterResult.iterator().next();
@@ -107,19 +129,25 @@ public class InitBean {
                     ComparisonOperator.EQUALS,
                     (jsonValue.asJsonObject().getJsonObject("endNode").getInt("nodeId"))
             );
-            filterResult = DatabaseRespository.getINSTANCE().getSession().loadAll(MapNode.class, filter);
+            filterResult = session.loadAll(MapNode.class, filter);
 
             if (filterResult.iterator().hasNext()) {
                 endNode = filterResult.iterator().next();
             }
 
-            NodeRelation nodeRelation = new NodeRelation();
-            nodeRelation.setStartNode(startNode);
-            nodeRelation.setEndNode(endNode);
-            nodeRelation.setLength(
-                    nodeRelation.calculateLength(startNode, endNode)
-            );
-            DatabaseRespository.getINSTANCE().getSession().save(nodeRelation);
+            if (!relationshipExists(startNode, endNode)) {
+                NodeRelation nodeRelation = new NodeRelation();
+                nodeRelation.setStartNode(startNode);
+                nodeRelation.setEndNode(endNode);
+                nodeRelation.setLength(
+                        nodeRelation.calculateLength(startNode, endNode)
+                );
+
+                DatabaseRespository.getINSTANCE().getSession().save(nodeRelation);
+                System.out.println("Relationship created");
+            } else {
+                System.out.println("Relationship already exists");
+            }
         });
     }
 }
