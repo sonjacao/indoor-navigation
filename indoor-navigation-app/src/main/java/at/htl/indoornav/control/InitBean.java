@@ -61,6 +61,8 @@ public class InitBean {
     }
 
     private boolean relationshipExists(MapNode startNode, MapNode endNode) {
+        boolean exists = true;
+
         Map<String, Object> params = new HashMap<>();
         params.put("sId", startNode.getNodeId());
         params.put("eId", endNode.getNodeId());
@@ -68,11 +70,10 @@ public class InitBean {
                 "RETURN EXISTS( (s)-[:CONNECTS_TO]-(e) )";
         Result result = session.query(checkQuery, params);
 
-        if (result.iterator().hasNext()) {
-            return true;
-        }
+        Object[] resultValue = result.iterator().next().values().toArray();
+        exists = Boolean.parseBoolean(resultValue[0].toString());
 
-        return false;
+        return exists;
     }
 
     /**
