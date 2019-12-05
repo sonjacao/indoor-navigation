@@ -1,12 +1,12 @@
 # Projektantrag
 
 |===
-|*Projekttitel:*      |Indoor Wayfinder
-|*Projektleiter:*     |Halil Bahar
-|*Projektmitglieder:* |Sonja Cao
+|*Projekttitel:*      |INA - Indoor Wayfinder
+|*Projektmitglieder:* |Sonja Cao, Halil Bahar
 |*Auftraggeber:*      |Prof. Mag. Dr. Thomas Stütz
 |*Projektart:*        |IT-Projekt
 |*Erstellt am:* |08.11.2019
+|*Letzte Änderung am:* |05.12.2019
 |===
 
 
