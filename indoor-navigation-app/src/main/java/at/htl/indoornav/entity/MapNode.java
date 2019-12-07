@@ -114,8 +114,22 @@ public class MapNode {
 
         if (filterResult.iterator().hasNext()) {
             mapNode = filterResult.iterator().next();
+            return mapNode;
         }
 
-        return mapNode;
+        return null;
+    }
+
+    public static MapNode findMapNodeByName(String name) {
+        MapNode mapNode = new MapNode();
+        Filter filter = new Filter("name", ComparisonOperator.EQUALS, name);
+        Collection<MapNode> filterResult = session.loadAll(MapNode.class, filter);
+
+        if (filterResult.iterator().hasNext()) {
+            mapNode = filterResult.iterator().next();
+            return mapNode;
+        }
+
+        return null;
     }
 }
