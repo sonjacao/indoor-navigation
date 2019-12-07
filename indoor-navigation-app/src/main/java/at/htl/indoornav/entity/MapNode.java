@@ -1,12 +1,20 @@
 package at.htl.indoornav.entity;
 
+import at.htl.indoornav.repository.DatabaseRespository;
 import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Property;
+import org.neo4j.ogm.cypher.ComparisonOperator;
+import org.neo4j.ogm.cypher.Filter;
+import org.neo4j.ogm.session.Session;
+
+import java.util.Collection;
 
 @NodeEntity
 public class MapNode {
+
+    private static Session session = DatabaseRespository.getINSTANCE().getSession();
 
     @Id
     @GeneratedValue
@@ -97,5 +105,17 @@ public class MapNode {
     @Override
     public String toString() {
         return String.format("Node %d - %s '%s': floor: %s, x-coordinate: %f, y-coordinate: %f", nodeId, type, name, type, xCoordinate, yCoordinate);
+    }
+
+    public static MapNode findMapNodeByNodeId(Long nodeId) {
+        MapNode mapNode = new MapNode();
+        Filter filter = new Filter("nodeId", ComparisonOperator.EQUALS, nodeId);
+        Collection<MapNode> filterResult = session.loadAll(MapNode.class, filter);
+
+        if (filterResult.iterator().hasNext()) {
+            mapNode = filterResult.iterator().next();
+        }
+
+        return mapNode;
     }
 }
