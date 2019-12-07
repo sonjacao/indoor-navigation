@@ -5,6 +5,8 @@ import org.neo4j.ogm.model.Result;
 import org.neo4j.ogm.session.Session;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 public class DijkstraAlgorithm {
@@ -15,7 +17,7 @@ public class DijkstraAlgorithm {
         this.session = DatabaseRespository.getINSTANCE().getSession();
     }
 
-    public static Map<String, Object> findShortestPath(MapNode startNode, MapNode endNode) {
+    public static List<Map<String, Object>> findShortestPath(MapNode startNode, MapNode endNode) {
         Map<String, Object> params = new HashMap<>();
         params.put("sName", startNode.getName());
         params.put("eName", endNode.getName());
@@ -25,14 +27,15 @@ public class DijkstraAlgorithm {
                 "RETURN algo.asNode(nodeId).name AS name, cost as length";
         Result result = session.query(checkQuery, params);
 
-        Map<String, Object> mapResult = new HashMap<>();
+
+       List<Map<String, Object>> mapResult = new LinkedList<>();
 
         result.iterator().forEachRemaining(stringObjectMap -> {
-
-            for (Map.Entry<String, Object> entry : stringObjectMap.entrySet()) {
-                mapResult.put(entry.getKey(), String.valueOf(entry.getValue()));
-            }
-            System.out.println(mapResult.values());
+            Map<String, Object> mapNodeMap = new HashMap<>();
+            MapNode mapNode = MapNode.findMapNodeByName(String.valueOf(stringObjectMap.get("name")));
+            mapNodeMap.put("mapNode", mapNode);
+            mapNodeMap.put("length", new Double(String.valueOf(stringObjectMap.get("length"))).longValue());
+            mapResult.add(mapNodeMap);
         });
 
         return mapResult;

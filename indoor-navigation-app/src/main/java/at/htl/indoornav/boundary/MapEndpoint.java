@@ -11,6 +11,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 @Path("map")
@@ -53,7 +54,7 @@ public class MapEndpoint {
         startNode = MapNode.findMapNodeByName(startNodeName);
         endNode = MapNode.findMapNodeByName(endNodeName);
 
-        Map<String, Object> mapResult = DijkstraAlgorithm.findShortestPath(startNode, endNode);
+        List<Map<String,Object>> mapResult = DijkstraAlgorithm.findShortestPath(startNode, endNode);
 
         return Response.ok(mapResult).build();
     }
