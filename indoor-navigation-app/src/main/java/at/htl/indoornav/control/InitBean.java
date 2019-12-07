@@ -46,16 +46,8 @@ public class InitBean {
      * @return true if the node exists, else return false if it does not exist
      */
     private boolean nodeExists(MapNode mapNode) {
-        Filter filter = new Filter("nodeId", ComparisonOperator.EQUALS, mapNode.getNodeId());
-
-        Collection<MapNode> result = session.loadAll(MapNode.class, filter);
-
-        Iterator<MapNode> iterator = result.iterator();
-        while (iterator.hasNext()) {
-            MapNode currentMapNode = session.load(MapNode.class, iterator.next().getId());
-            if (currentMapNode != null) {
-                return true;
-            }
+        if(MapNode.findMapNodeByNodeId(mapNode.getNodeId()) != null) {
+            return true;
         }
         return false;
     }
@@ -114,27 +106,9 @@ public class InitBean {
             MapNode endNode = new MapNode();
             Collection<MapNode> filterResult;
 
-            // load start node
-            Filter filter = new Filter("nodeId",
-                    ComparisonOperator.EQUALS,
-                    (jsonValue.asJsonObject().getJsonObject("startNode").getInt("nodeId"))
-            );
-            filterResult = session.loadAll(MapNode.class, filter);
+            startNode = MapNode.findMapNodeByNodeId((long) jsonValue.asJsonObject().getJsonObject("startNode").getInt("nodeId"));
+            endNode = MapNode.findMapNodeByNodeId((long) jsonValue.asJsonObject().getJsonObject("endNode").getInt("nodeId"));
 
-            if (filterResult.iterator().hasNext()) {
-                startNode = filterResult.iterator().next();
-            }
-
-            // load end node
-            filter = new Filter("nodeId",
-                    ComparisonOperator.EQUALS,
-                    (jsonValue.asJsonObject().getJsonObject("endNode").getInt("nodeId"))
-            );
-            filterResult = session.loadAll(MapNode.class, filter);
-
-            if (filterResult.iterator().hasNext()) {
-                endNode = filterResult.iterator().next();
-            }
 
             if (!relationshipExists(startNode, endNode)) {
                 NodeRelation nodeRelation = new NodeRelation();
