@@ -1,5 +1,6 @@
 package at.htl.indoornav.boundary;
 
+import at.htl.indoornav.entity.DijkstraAlgorithm;
 import at.htl.indoornav.entity.MapNode;
 import at.htl.indoornav.repository.DatabaseRespository;
 import org.neo4j.ogm.cypher.ComparisonOperator;
@@ -10,6 +11,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Collection;
+import java.util.Map;
 
 @Path("map")
 @Produces(MediaType.APPLICATION_JSON)
@@ -32,10 +34,28 @@ public class MapEndpoint {
         Filter filter = new Filter("floor", ComparisonOperator.EQUALS, floor);
         Collection<MapNode> mapNodeCollection = session.loadAll(MapNode.class, filter);
         if (mapNodeCollection != null) {
-            return  Response
+            return Response
                     .ok(mapNodeCollection)
                     .build();
         }
         return Response.noContent().build();
     }
+
+
+    @GET
+    @Path("shortestPath")
+    public Response getMapNodesByFloor(@QueryParam("start") String startNodeName, @QueryParam("end") String endNodeName) {
+        DijkstraAlgorithm dijkstraAlgorithm = new DijkstraAlgorithm();
+
+        MapNode startNode = new MapNode();
+        MapNode endNode = new MapNode();
+
+        startNode = MapNode.findMapNodeByName(startNodeName);
+        endNode = MapNode.findMapNodeByName(endNodeName);
+
+        Map<String, Object> mapResult = DijkstraAlgorithm.findShortestPath(startNode, endNode);
+
+        return Response.ok(mapResult).build();
+    }
+
 }
