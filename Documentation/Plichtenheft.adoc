@@ -1,0 +1,47 @@
+# Pflichtenheft
+
+|===
+|*Projekttitel:*      |INA - Indoor Wayfinder
+|*Projektmitglieder:* |Sonja Cao, Halil Bahar
+|*Auftraggeber:*      |Prof. Mag. Dr. Thomas Stütz
+|*Projektart:*        |IT-Projekt
+|*Erstellt am:* |08.12.2019
+|===
+
+
+### Ausgangssituation
+
+Täglich besuchen Schülerinnen, Schüler sowie Lehrkräfte und zahlreiche andere Personen die HTBLA Leonding.
+Die Schule besteht aus einem Untergeschoss, einem Erdgeschoss und zwei Obergeschossen sowie einem linken und einem rechten Flügel. Um in ein anderes Stockwerk zu gelangen, stehen Treppen und ein Lift zur Verfügung. 
+Die einzelnen Klassenzimmer und Räume sind mit einem Schild beschriftet. Damit sind sowohl Klassenräume als auch Lehrerzimmer, das Sekretariat, EDV-Sääle, Labore und etliche andere Räume gemeint.
+Auf den Stundenplänen ist für jede Einheit angegeben, in welchem Raum diese stattfindet. Dementsprechend
+suchen und begeben sich Schülerinnen, Schüler und Lehrkräfte in den entsprechenden Unterrichtsraum. +
+Bei Veranstaltungen kommen und gehen viele Besucher und Unternehmen, die eventuell noch nie das Gebäude betreten haben und sich erst darüber
+informieren müssen, wo sie einen bestimmten Raum finden können.
+
+### Ist-Zustand
+
+Um sich in einem Gebäude zurechtzufinden, müssen sich die einzelnen Personen immer wieder bei anderen erkundigen, wo genau sich ein bestimmter Raum befindet. Die Raumnamen tragen oft eine weitere Bezeichnung, die das Stockwerk und den Flügel bezeichnen soll, in dem dieser sich befindet. Beispielsweise wird der 'EDV 7' auch 'E73-a' genannt. +
+Das erste Zeichen kennzeichnet das Stockwerk:
+
+- *U* für das Untergeschoss
+- *E* für Erdgeschoss
+- *1* für den ersten Stock
+- *2* für den zweiten Stock
+
+### Problemstellung
+
+Der gesuchte Standort befindet oft in einem anderen Stockwerk und ist über Treppen oder Lifte erreichbar. Außerdem kann es sein, dass manche Räume zurzeit nicht zur Verfügung stehen aufgrund von Besprechungen, Veranstaltungen oder Schularbeiten und Tests. Des Weiteren ist die Raumbezeichnung oft unklar, da beispielsweise Klassenzimmer eine bestimmte Raumnummer, wie '107', aber anders bezeichnet werden, wie etwa'4ahitm'.
+
+### Aufgabenstellung
+
+Es soll eine Applikation entwickelt werden, die auf einem Gebäudeplan den kürzesten Weg von einem Standort zu einem anderen
+anzeigt und somit Personen schnellstmöglich und einfach an ihren Wunschort führen. Die Wegberechnung soll mithilfe des Dijkstras Algorithmus oder auch Shortest-Path-Algorithmus erfolgen.
+
+### Ziele
+
+Allen Personen, denen die Orientierung in einem Gebäude schwerfällt oder auf die Schnelle einen Raum finden wollen, wird die Suche erleichtert durch klare und einfache Wegweisungen. 
+
+### Weiteres Vorgehen
+
+An allen notwendigen Positionen werden Knoten sowie die jeweiligen Verbindungen zueinander gesetzt. Mithilfe des Dijkstra Algorithmus wird dann der kürzeste Weg ermittelt und angezeigt, welche Knoten passiert werden müssen, um so schnell wie möglich an den Wunschort zu gelangen. Außerdem wird der Abstand zwischen den Knoten berechnet sowie die Gesamtlänge der Strecke, die zurückgelegt werden muss.
