@@ -1,8 +1,10 @@
 package at.htl.indoornav.control;
 
+import at.htl.indoornav.entity.Floor;
 import at.htl.indoornav.entity.MapNode;
 import at.htl.indoornav.entity.NodeRelation;
 import at.htl.indoornav.repository.DatabaseRespository;
+import at.htl.indoornav.serialization.FloorDeserializer;
 import at.htl.indoornav.serialization.MapNodeDeserializer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -16,6 +18,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.json.Json;
 import javax.json.JsonArray;
+import javax.json.JsonObject;
 import javax.json.JsonReader;
 import java.io.InputStreamReader;
 import java.util.Collection;
@@ -37,6 +40,14 @@ public class InitBean {
 //        session.deleteAll(MapNode.class);
         readMapNodeFromFile("data.json");
         readNodeRelationFromFile("relations.json");
+        readFloorFromFile("map-data.json");
+    }
+
+    private boolean floorExists(Floor floor) {
+        if (Floor.findFloorByFloorId(floor.getFloorId()) != null) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -46,7 +57,7 @@ public class InitBean {
      * @return true if the node exists, else return false if it does not exist
      */
     private boolean nodeExists(MapNode mapNode) {
-        if(MapNode.findMapNodeByNodeId(mapNode.getNodeId()) != null) {
+        if (MapNode.findMapNodeByNodeId(mapNode.getNodeId()) != null) {
             return true;
         }
         return false;
@@ -80,6 +91,22 @@ public class InitBean {
         )) {
             return jsonReader.readArray();
         }
+    }
+
+    private void readFloorFromFile(String floorFilename) {
+        Gson gson = new GsonBuilder().registerTypeAdapter(Floor.class, new FloorDeserializer()).create();
+        JsonArray jsonArray = readJsonFromFile(floorFilename);
+
+        jsonArray.forEach(jsonValue -> {
+            Floor floor = gson.fromJson(jsonValue.toString(), Floor.class);
+
+            if (!floorExists(floor)) {
+                session.save(floor);
+                System.out.println(floor + " created");
+            } else {
+                System.out.println("Floor already exists");
+            }
+        });
     }
 
     private void readMapNodeFromFile(String mapNodeFilename) {
