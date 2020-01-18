@@ -2,12 +2,21 @@ package at.htl.indoornav.entity;
 
 public class Node {
 
+    private Long Id;
     private String name;
     private String type;
     private boolean isHidden;
     private float x;
     private float y;
     private float z;
+
+    public Long getId() {
+        return Id;
+    }
+
+    public void setId(Long id) {
+        Id = id;
+    }
 
     public String getName() {
         return name;
