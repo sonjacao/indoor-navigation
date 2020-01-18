@@ -4,7 +4,7 @@ public class Node {
 
     private Long Id;
     private String name;
-    private String type;
+    private NodeType type;
     private boolean isHidden;
     private float x;
     private float y;
@@ -26,11 +26,11 @@ public class Node {
         this.name = name;
     }
 
-    public String getType() {
+    public NodeType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(NodeType type) {
         this.type = type;
     }
 
