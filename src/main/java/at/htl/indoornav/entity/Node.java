@@ -20,6 +20,13 @@ public class Node {
         this.z = z;
     }
 
+    public static Node from(org.neo4j.driver.types.Node node) {
+        return new Node(
+                node.id(), node.get("name").asString(), NodeType.valueOf(node.get("type").asString()),
+                node.get("isHidden").asBoolean(), node.get("x").asFloat(), node.get("y").asFloat(), node.get("z").asFloat()
+        );
+    }
+
     public Long getId() {
         return id;
     }
