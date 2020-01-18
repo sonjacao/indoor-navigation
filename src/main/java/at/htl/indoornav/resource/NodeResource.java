@@ -18,7 +18,6 @@ public class NodeResource {
     NodeRepository nodeRepository;
 
     @GET
-    @Path("all")
     public Response getAllNodes() {
         return Response.ok(nodeRepository.getAllNodes()).build();
     }
