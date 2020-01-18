@@ -10,6 +10,16 @@ public class Node {
     private float y;
     private float z;
 
+    public Node(Long id, String name, NodeType type, boolean isHidden, float x, float y, float z) {
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.isHidden = isHidden;
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
+
     public Long getId() {
         return id;
     }
