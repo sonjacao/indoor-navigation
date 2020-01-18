@@ -17,13 +17,14 @@ public class NodeRepository {
     public void createNode(Node node) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("name", node.getName());
+        parameters.put("type", node.getType().name());
         parameters.put("isHidden", node.isHidden());
         parameters.put("x", node.getX());
         parameters.put("y", node.getY());
         parameters.put("z", node.getZ());
 
         driver.session().writeTransaction(transaction -> transaction.run(
-                "CREATE (n:Point { name: $name, isHidden: $isHidden , x: $x, y: $y, z: $z })",
+                "CREATE (n:Point { name: $name, type: $type, isHidden: $isHidden , x: $x, y: $y, z: $z })",
                 parameters
         ));
     }
