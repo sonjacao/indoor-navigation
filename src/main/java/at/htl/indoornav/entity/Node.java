@@ -19,7 +19,7 @@ public class Node {
     @NotNull(message = "Z may not be null!")
     private Float z;
 
-    public Node(Long id, String name, NodeType type, boolean isHidden, float x, float y, float z) {
+    public Node(Long id, String name, NodeType type, Boolean isHidden, Float x, Float y, Float z) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -68,35 +68,35 @@ public class Node {
         this.type = nodeType;
     }
 
-    public boolean isHidden() {
+    public Boolean isHidden() {
         return isHidden;
     }
 
-    public void setHidden(boolean isHidden) {
+    public void setHidden(Boolean isHidden) {
         this.isHidden = isHidden;
     }
 
-    public float getX() {
+    public Float getX() {
         return x;
     }
 
-    public void setX(float x) {
+    public void setX(Float x) {
         this.x = x;
     }
 
-    public float getY() {
+    public Float getY() {
         return y;
     }
 
-    public void setY(float y) {
+    public void setY(Float y) {
         this.y = y;
     }
 
-    public float getZ() {
+    public Float getZ() {
         return z;
     }
 
-    public void setZ(float z) {
+    public void setZ(Float z) {
         this.z = z;
     }
 
