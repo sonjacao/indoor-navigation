@@ -38,15 +38,13 @@ public class NodeResourceTest {
     @Test
     void testCreateNode() {
         Node node = new Node(null, "5ahif", NodeType.FLOOR, false, 125f, 25f, 890f);
-        Long id = given()
-                .when()
-                    .contentType("application/json")
-                    .body(jsonb.toJson(node))
-                    .post("/node")
-                .then()
-                    .statusCode(200)
-                .extract()
-                    .path("id");
+        given()
+            .when()
+                .contentType("application/json")
+                .body(jsonb.toJson(node))
+                .post("/node")
+            .then()
+                .statusCode(200);
     }
 
     @Test
