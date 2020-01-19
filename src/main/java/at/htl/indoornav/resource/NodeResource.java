@@ -4,6 +4,7 @@ import at.htl.indoornav.entity.Node;
 import at.htl.indoornav.repository.NodeRepository;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
@@ -31,7 +32,7 @@ public class NodeResource {
     }
 
     @POST
-    public Response createNode(Node node) {
+    public Response createNode(@Valid Node node) {
         nodeRepository.createNode(node);
         return Response.ok().build();
     }
