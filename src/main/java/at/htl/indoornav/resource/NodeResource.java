@@ -35,4 +35,14 @@ public class NodeResource {
         nodeRepository.createNode(node);
         return Response.ok().build();
     }
+
+    @GET
+    @Path("relationship")
+    public Response createRelationship(@QueryParam("start") Long idStart, @QueryParam("end") Long idEnd) {
+        Node nodeStart = nodeRepository.getNodeById(idStart);
+        Node nodeEnd = nodeRepository.getNodeById(idEnd);
+        System.out.println(idStart);
+        nodeRepository.createRelationship(nodeStart, nodeEnd);
+        return Response.ok().build();
+    }
 }
