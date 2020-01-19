@@ -99,4 +99,17 @@ public class NodeResourceTest {
                 .body("parameterViolations[0].message", is("X may not be null!"));
     }
 
+    @Test
+    void testCreateNodeWithoutY() {
+        Node node = new Node(null, "5ahif", NodeType.FLOOR, false, 125f, null, 890f);
+        given()
+                .when()
+                .contentType("application/json")
+                .body(jsonb.toJson(node))
+                .post("/node")
+                .then()
+                .statusCode(400)
+                .body("parameterViolations[0].message", is("Y may not be null!"));
+    }
+
 }
