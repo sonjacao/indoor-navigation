@@ -352,4 +352,16 @@ public class NodeResourceTest {
                 .statusCode(400);
     }
 
+    @Test
+    void testCreateRelationshipWithNotExistingIds() {
+        given()
+            .when()
+                .contentType("application/json")
+                .queryParam("start", 170102)
+                .queryParam("end", 170302)
+                .post("/node/relationship")
+            .then()
+                .statusCode(400);
+    }
+
 }
