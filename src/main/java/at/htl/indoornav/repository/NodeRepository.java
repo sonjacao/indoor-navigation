@@ -20,7 +20,7 @@ public class NodeRepository {
     @Inject
     Driver driver;
 
-    public void createNode(Node node) {
+    public Node createNode(Node node) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("name", node.getName());
         parameters.put("type", node.getType().name());
@@ -29,10 +29,16 @@ public class NodeRepository {
         parameters.put("y", node.getY());
         parameters.put("z", node.getZ());
 
-        driver.session().writeTransaction(transaction -> transaction.run(
-                "CREATE (n:Point { name: $name, type: $type, isHidden: $isHidden , x: $x, y: $y, z: $z })",
+        StatementResult result = driver.session().writeTransaction(transaction -> transaction.run(
+                "CREATE (p:Point { name: $name, type: $type, isHidden: $isHidden , x: $x, y: $y, z: $z }) RETURN p",
                 parameters
         ));
+
+        if (result.hasNext()) {
+            Record next = result.next();
+            return Node.from(next.get("p").asNode());
+        }
+        return null;
     }
 
     public List<Node> getAllNodes() {

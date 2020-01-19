@@ -33,8 +33,8 @@ public class NodeResource {
 
     @POST
     public Response createNode(@Valid Node node) {
-        nodeRepository.createNode(node);
-        return Response.ok().build();
+        Node createdNode = nodeRepository.createNode(node);
+        return Response.ok(createdNode).build();
     }
 
     @POST
