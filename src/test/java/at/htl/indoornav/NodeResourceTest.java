@@ -3,7 +3,9 @@ package at.htl.indoornav;
 import at.htl.indoornav.entity.Node;
 import at.htl.indoornav.entity.NodeType;
 import io.quarkus.test.junit.QuarkusTest;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
@@ -32,10 +34,15 @@ public class NodeResourceTest {
     @Test
     void testCreateNode() {
         Node node = new Node(null, "5ahif", NodeType.FLOOR, false, 125f, 25f, 890f);
-        given()
-                .when().contentType("application/json").body(jsonb.toJson(node)).post("/node")
+        Long id = given()
+                .when()
+                    .contentType("application/json")
+                    .body(jsonb.toJson(node))
+                    .post("/node")
                 .then()
-                .statusCode(200);
+                    .statusCode(200)
+                .extract()
+                    .path("id");
     }
 
 }
