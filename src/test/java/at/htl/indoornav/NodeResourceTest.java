@@ -269,4 +269,14 @@ public class NodeResourceTest {
             .then()
                 .statusCode(200);
     }
+
+    @Test
+    void testGetNodeByNotExistingId() {
+        given()
+            .when()
+                .pathParam("id", 170302)
+                .get("/node/{id}")
+            .then()
+                .statusCode(404);
+    }
 }
