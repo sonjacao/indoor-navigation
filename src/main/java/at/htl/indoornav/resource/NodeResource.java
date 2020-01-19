@@ -45,6 +45,10 @@ public class NodeResource {
         }
         Node nodeStart = nodeRepository.getNodeById(idStart);
         Node nodeEnd = nodeRepository.getNodeById(idEnd);
+
+        if (nodeStart == null || nodeEnd == null) {
+            return Response.status(400).build();
+        }
         nodeRepository.createRelationship(nodeStart, nodeEnd);
         return Response.ok().build();
     }
