@@ -1,13 +1,23 @@
 package at.htl.indoornav.entity;
 
+import javax.json.bind.annotation.JsonbProperty;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 public class Node {
 
     private Long id;
+    @NotBlank(message = "Name may not be blank!")
     private String name;
+    @NotNull(message = "Type may not be null!")
     private NodeType type;
+    @NotNull(message = "Hidden may not be null!")
     private boolean isHidden;
+    @NotNull(message = "X may not be null!")
     private float x;
+    @NotNull(message = "Y may not be null!")
     private float y;
+    @NotNull(message = "Z may not be null!")
     private float z;
 
     public Node(Long id, String name, NodeType type, boolean isHidden, float x, float y, float z) {
