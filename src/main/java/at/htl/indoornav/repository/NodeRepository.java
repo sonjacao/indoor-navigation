@@ -60,6 +60,12 @@ public class NodeRepository {
         return null;
     }
 
+    public void deleteNodeById(Long id) {
+        driver.session().run(
+                "MATCH (p:Point) WHERE ID(p) = $id DETACH DELETE p", parameters("id", id)
+        );
+    }
+
     public void createRelationship(Node start, Node end) {
         double distance = Math.sqrt(Math.pow(end.getX() - start.getX(), 2) + Math.pow(end.getY() - start.getY(), 2)
                 + Math.pow(end.getZ() - start.getZ(), 2));
@@ -75,4 +81,5 @@ public class NodeRepository {
                 parameters
         );
     }
+
 }

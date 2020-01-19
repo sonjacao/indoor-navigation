@@ -48,4 +48,11 @@ public class NodeResource {
         nodeRepository.createRelationship(nodeStart, nodeEnd);
         return Response.ok().build();
     }
+
+    @DELETE
+    @Path("{id}")
+    public Response deleteNodeById(@PathParam("id") Long id)  {
+        nodeRepository.deleteNodeById(id);
+        return Response.ok().build();
+    }
 }
