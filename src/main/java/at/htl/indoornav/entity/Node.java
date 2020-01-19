@@ -1,6 +1,5 @@
 package at.htl.indoornav.entity;
 
-import javax.json.bind.annotation.JsonbProperty;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -12,13 +11,13 @@ public class Node {
     @NotNull(message = "Type may not be null!")
     private NodeType type;
     @NotNull(message = "Hidden may not be null!")
-    private boolean isHidden;
+    private Boolean isHidden;
     @NotNull(message = "X may not be null!")
-    private float x;
+    private Float x;
     @NotNull(message = "Y may not be null!")
-    private float y;
+    private Float y;
     @NotNull(message = "Z may not be null!")
-    private float z;
+    private Float z;
 
     public Node(Long id, String name, NodeType type, boolean isHidden, float x, float y, float z) {
         this.id = id;
@@ -69,7 +68,6 @@ public class Node {
         this.type = nodeType;
     }
 
-    @JsonbProperty("isHidden")
     public boolean isHidden() {
         return isHidden;
     }
