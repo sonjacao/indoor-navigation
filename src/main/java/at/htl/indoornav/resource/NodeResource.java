@@ -8,7 +8,7 @@ import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
-@Path("node")
+@Path("/node")
 @Produces("application/json")
 @Consumes("application/json")
 public class NodeResource {
@@ -22,7 +22,7 @@ public class NodeResource {
     }
 
     @GET
-    @Path("{id}")
+    @Path("/{id}")
     public Response getNodeById(@PathParam("id") Long id) {
         Node node = nodeRepository.getNodeById(id);
         if (node == null) {
@@ -38,7 +38,7 @@ public class NodeResource {
     }
 
     @GET
-    @Path("relationship")
+    @Path("/relationship")
     public Response createRelationship(@QueryParam("start") Long idStart, @QueryParam("end") Long idEnd) {
         Node nodeStart = nodeRepository.getNodeById(idStart);
         Node nodeEnd = nodeRepository.getNodeById(idEnd);
