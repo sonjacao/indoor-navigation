@@ -39,11 +39,11 @@ public class NodeResourceTest {
     void testCreateNode() {
         Node node = new Node(null, "5ahif", NodeType.FLOOR, false, 125f, 25f, 890f);
         given()
-            .when()
+                .when()
                 .contentType("application/json")
                 .body(jsonb.toJson(node))
                 .post("/node")
-            .then()
+                .then()
                 .statusCode(200);
     }
 
@@ -51,11 +51,11 @@ public class NodeResourceTest {
     void testCreateNodeWithoutName() {
         Node node = new Node(null, null, NodeType.FLOOR, false, 125f, 25f, 890f);
         given()
-            .when()
+                .when()
                 .contentType("application/json")
                 .body(jsonb.toJson(node))
                 .post("/node")
-            .then()
+                .then()
                 .statusCode(400)
                 .body("parameterViolations[0].message", is("Name may not be blank!"));
     }
@@ -64,11 +64,11 @@ public class NodeResourceTest {
     void testCreateNodeWithBlankName() {
         Node node = new Node(null, "", NodeType.FLOOR, false, 125f, 25f, 890f);
         given()
-            .when()
+                .when()
                 .contentType("application/json")
                 .body(jsonb.toJson(node))
                 .post("/node")
-            .then()
+                .then()
                 .statusCode(400)
                 .body("parameterViolations[0].message", is("Name may not be blank!"));
     }
@@ -110,6 +110,19 @@ public class NodeResourceTest {
                 .then()
                 .statusCode(400)
                 .body("parameterViolations[0].message", is("Y may not be null!"));
+    }
+
+    @Test
+    void testCreateNodeWithoutZ() {
+        Node node = new Node(null, "5ahif", NodeType.FLOOR, false, 125f, 25f, null);
+        given()
+                .when()
+                .contentType("application/json")
+                .body(jsonb.toJson(node))
+                .post("/node")
+                .then()
+                .statusCode(400)
+                .body("parameterViolations[0].message", is("Z may not be null!"));
     }
 
 }
