@@ -37,7 +37,7 @@ public class NodeResource {
         return Response.ok().build();
     }
 
-    @GET
+    @POST
     @Path("/relationship")
     public Response createRelationship(@QueryParam("start") Long idStart, @QueryParam("end") Long idEnd) {
         if (idStart == null || idEnd == null) {
