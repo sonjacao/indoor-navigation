@@ -69,12 +69,13 @@ public class Node {
         this.type = nodeType;
     }
 
+    @JsonbProperty("isHidden")
     public boolean isHidden() {
         return isHidden;
     }
 
-    public void setHidden(boolean hidden) {
-        isHidden = hidden;
+    public void setHidden(boolean isHidden) {
+        this.isHidden = isHidden;
     }
 
     public float getX() {
