@@ -329,4 +329,16 @@ public class NodeResourceTest {
             .then()
                 .statusCode(200);
     }
+
+    @Test
+    void testCreateRelationshipWithoutStartId() {
+        given()
+            .when()
+                .contentType("application/json")
+                .queryParam("end", 2)
+                .post("/node/relationship")
+            .then()
+                .statusCode(400);
+    }
+
 }
