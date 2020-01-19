@@ -74,6 +74,19 @@ public class NodeResourceTest {
     }
 
     @Test
+    void testCreateNodeWithoutNodeType() {
+        Node node = new Node(null, "5ahif", null, false, 125f, 25f, 890f);
+        given()
+                .when()
+                .contentType("application/json")
+                .body(jsonb.toJson(node))
+                .post("/node")
+                .then()
+                .statusCode(400)
+                .body("parameterViolations[0].message", is("Type may not be null!"));
+    }
+
+    @Test
     void testCreateNodeWithoutHidden() {
         Node node = new Node(null, "5ahif", NodeType.FLOOR, null, 125f, 25f, 890f);
         given()
