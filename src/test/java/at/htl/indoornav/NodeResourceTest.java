@@ -160,6 +160,36 @@ public class NodeResourceTest {
     }
 
     @Test
+    void testCreateNodeWithTypeElevatorAsText() {
+        JsonObject jsonObject = Json.createObjectBuilder()
+                .add("name", "4ahitm")
+                .add("type", "ELEVATOR")
+                .add("hidden", false)
+                .add("x", 5)
+                .add("y", 5)
+                .add("z", 5)
+                .build();
+
+        long id = given()
+            .when()
+                .contentType("application/json")
+                .body(jsonObject.toString())
+                .post("/node")
+            .then()
+                .statusCode(200)
+                .extract()
+                .jsonPath()
+                .getLong("id");
+
+        given()
+            .when()
+                .pathParam("id", id)
+                .delete("/node/{id}")
+            .then()
+                .statusCode(200);
+    }
+
+    @Test
     void testCreateNodeWithoutHidden() {
         Node node = new Node(null, "5ahif", NodeType.FLOOR, null, 125f, 25f, 890f);
         given()
