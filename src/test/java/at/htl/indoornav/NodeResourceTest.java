@@ -9,6 +9,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
 
@@ -95,6 +97,36 @@ public class NodeResourceTest {
             .then()
                 .statusCode(400)
                 .body("parameterViolations[0].message", is("Type may not be null!"));
+    }
+
+    @Test
+    void testCreateNodeWithTypeFloorAsText() {
+        JsonObject jsonObject = Json.createObjectBuilder()
+                .add("name", "4ahitm")
+                .add("type", "FLOOR")
+                .add("hidden", false)
+                .add("x", 5)
+                .add("y", 5)
+                .add("z", 5)
+                .build();
+
+        long id = given()
+            .when()
+                .contentType("application/json")
+                .body(jsonObject.toString())
+                .post("/node")
+            .then()
+                .statusCode(200)
+                .extract()
+                .jsonPath()
+                .getLong("id");
+
+        given()
+            .when()
+                .pathParam("id", id)
+                .delete("/node/{id}")
+            .then()
+                .statusCode(200);
     }
 
     @Test
