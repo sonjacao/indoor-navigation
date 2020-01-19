@@ -9,14 +9,14 @@ import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
-@Path("path")
+@Path("/path")
 public class PathResource {
 
     @Inject
     NodeRepository nodeRepository;
 
     @GET
-    @Path("shortest")
+    @Path("/shortest")
     public Response getShortestPath(@QueryParam("start") Long idStart, @QueryParam("end") Long idEnd) {
         Node startNode = nodeRepository.getNodeById(idStart);
         Node endNode = nodeRepository.getNodeById(idEnd);
@@ -25,7 +25,7 @@ public class PathResource {
     }
 
     @GET
-    @Path("handicapped")
+    @Path("/handicapped")
     public Response getShortestPathForHandicapped(@QueryParam("start") Long idStart, @QueryParam("end") Long idEnd) {
         Node startNode = nodeRepository.getNodeById(idStart);
         Node endNode = nodeRepository.getNodeById(idEnd);
