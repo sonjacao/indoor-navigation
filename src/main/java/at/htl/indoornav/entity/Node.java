@@ -20,6 +20,9 @@ public class Node {
         this.z = z;
     }
 
+    public Node() {
+    }
+
     public static Node from(org.neo4j.driver.types.Node node) {
         return new Node(
                 node.id(), node.get("name").asString(), NodeType.valueOf(node.get("type").asString()),
@@ -29,10 +32,6 @@ public class Node {
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -47,8 +46,17 @@ public class Node {
         return type;
     }
 
-    public void setType(NodeType type) {
-        this.type = type;
+    public void setType(String type) {
+        NodeType nodeType = null;
+        NodeType[] allTypes = NodeType.values();
+        for (NodeType singleType : allTypes) {
+            if (singleType.name().equals(type)) {
+                nodeType = singleType;
+                break;
+            }
+        }
+
+        this.type = nodeType;
     }
 
     public boolean isHidden() {
@@ -81,5 +89,18 @@ public class Node {
 
     public void setZ(float z) {
         this.z = z;
+    }
+
+    @Override
+    public String toString() {
+        return "Node{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", type=" + type +
+                ", isHidden=" + isHidden +
+                ", x=" + x +
+                ", y=" + y +
+                ", z=" + z +
+                '}';
     }
 }
