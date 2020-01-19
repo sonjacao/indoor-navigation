@@ -73,4 +73,17 @@ public class NodeResourceTest {
                 .body("parameterViolations[0].message", is("Name may not be blank!"));
     }
 
+    @Test
+    void testCreateNodeWithoutHidden() {
+        Node node = new Node(null, "5ahif", NodeType.FLOOR, null, 125f, 25f, 890f);
+        given()
+                .when()
+                .contentType("application/json")
+                .body(jsonb.toJson(node))
+                .post("/node")
+                .then()
+                .statusCode(400)
+                .body("parameterViolations[0].message", is("Hidden may not be null!"));
+    }
+
 }
