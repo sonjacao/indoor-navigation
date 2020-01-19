@@ -29,4 +29,10 @@ public class NodeResource {
         }
         return Response.ok(node).build();
     }
+
+    @POST
+    public Response createNode(Node node) {
+        nodeRepository.createNode(node);
+        return Response.ok().build();
+    }
 }
