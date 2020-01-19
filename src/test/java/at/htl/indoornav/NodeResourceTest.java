@@ -241,4 +241,32 @@ public class NodeResourceTest {
                 .body("parameterViolations[0].message", is("Z may not be null!"));
     }
 
+    @Test
+    void testGetNodeById() {
+        Node node = new Node(null, "5ahif", NodeType.FLOOR, false, 125f, 25f, 890f);
+        long id = given()
+            .when()
+                .contentType("application/json")
+                .body(jsonb.toJson(node))
+                .post("/node")
+            .then()
+                .statusCode(200)
+                .extract()
+                .jsonPath()
+                .getLong("id");
+
+        given()
+            .when()
+                .pathParam("id", id)
+                .get("/node/{id}")
+            .then()
+                .statusCode(200);
+
+        given()
+            .when()
+                .pathParam("id", id)
+                .delete("/node/{id}")
+            .then()
+                .statusCode(200);
+    }
 }
