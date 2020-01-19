@@ -3,6 +3,8 @@ package at.htl.indoornav;
 import at.htl.indoornav.entity.Node;
 import at.htl.indoornav.entity.NodeType;
 import io.quarkus.test.junit.QuarkusTest;
+import io.restassured.RestAssured;
+import io.restassured.parsing.Parser;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -11,6 +13,7 @@ import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.is;
 
 @QuarkusTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -21,6 +24,7 @@ public class NodeResourceTest {
     @BeforeAll
     void init() {
         jsonb = JsonbBuilder.create();
+        RestAssured.defaultParser = Parser.JSON;
     }
 
     @Test
@@ -43,6 +47,19 @@ public class NodeResourceTest {
                     .statusCode(200)
                 .extract()
                     .path("id");
+    }
+
+    @Test
+    void testCreateNodeWithoutName() {
+        Node node = new Node(null, null, NodeType.FLOOR, false, 125f, 25f, 890f);
+        given()
+            .when()
+                .contentType("application/json")
+                .body(jsonb.toJson(node))
+                .post("/node")
+            .then()
+                .statusCode(400)
+                .body("parameterViolations[0].message", is("Name may not be blank!"));
     }
 
 }
