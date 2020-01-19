@@ -279,4 +279,54 @@ public class NodeResourceTest {
             .then()
                 .statusCode(404);
     }
+
+    @Test
+    void testCreateRelationship() {
+        Node startNode = new Node(null, "4ahitm", NodeType.FLOOR, false, 125f, 25f, 890f);
+        long startId = given()
+            .when()
+                .contentType("application/json")
+                .body(jsonb.toJson(startNode))
+                .post("/node")
+            .then()
+                .statusCode(200)
+                .extract()
+                .jsonPath()
+                .getLong("id");
+
+        Node endNode = new Node(null, "5ahif", NodeType.FLOOR, false, 125f, 25f, 890f);
+        long endId = given()
+            .when()
+                .contentType("application/json")
+                .body(jsonb.toJson(endNode))
+                .post("/node")
+            .then()
+                .statusCode(200)
+                .extract()
+                .jsonPath()
+                .getLong("id");
+
+        given()
+            .when()
+                .contentType("application/json")
+                .queryParam("start", startId)
+                .queryParam("end", endId)
+                .post("/node/relationship")
+            .then()
+                .statusCode(200);
+
+        given()
+            .when()
+                .pathParam("id", startId)
+                .delete("/node/{id}")
+            .then()
+                .statusCode(200);
+
+        given()
+            .when()
+                .pathParam("id", endId)
+                .delete("/node/{id}")
+            .then()
+                .statusCode(200);
+    }
 }
