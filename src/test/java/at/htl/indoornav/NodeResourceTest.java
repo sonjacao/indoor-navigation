@@ -30,8 +30,9 @@ public class NodeResourceTest {
     @Test
     void testGetAllNodes() {
         given()
-                .when().get("/node")
-                .then()
+            .when()
+                .get("/node")
+            .then()
                 .statusCode(200);
     }
 
@@ -39,11 +40,11 @@ public class NodeResourceTest {
     void testCreateNode() {
         Node node = new Node(null, "5ahif", NodeType.FLOOR, false, 125f, 25f, 890f);
         given()
-                .when()
+            .when()
                 .contentType("application/json")
                 .body(jsonb.toJson(node))
                 .post("/node")
-                .then()
+            .then()
                 .statusCode(200);
     }
 
@@ -51,11 +52,11 @@ public class NodeResourceTest {
     void testCreateNodeWithoutName() {
         Node node = new Node(null, null, NodeType.FLOOR, false, 125f, 25f, 890f);
         given()
-                .when()
+            .when()
                 .contentType("application/json")
                 .body(jsonb.toJson(node))
                 .post("/node")
-                .then()
+            .then()
                 .statusCode(400)
                 .body("parameterViolations[0].message", is("Name may not be blank!"));
     }
@@ -64,11 +65,11 @@ public class NodeResourceTest {
     void testCreateNodeWithBlankName() {
         Node node = new Node(null, "", NodeType.FLOOR, false, 125f, 25f, 890f);
         given()
-                .when()
+            .when()
                 .contentType("application/json")
                 .body(jsonb.toJson(node))
                 .post("/node")
-                .then()
+            .then()
                 .statusCode(400)
                 .body("parameterViolations[0].message", is("Name may not be blank!"));
     }
@@ -77,11 +78,11 @@ public class NodeResourceTest {
     void testCreateNodeWithoutNodeType() {
         Node node = new Node(null, "5ahif", null, false, 125f, 25f, 890f);
         given()
-                .when()
+            .when()
                 .contentType("application/json")
                 .body(jsonb.toJson(node))
                 .post("/node")
-                .then()
+            .then()
                 .statusCode(400)
                 .body("parameterViolations[0].message", is("Type may not be null!"));
     }
@@ -90,11 +91,11 @@ public class NodeResourceTest {
     void testCreateNodeWithoutHidden() {
         Node node = new Node(null, "5ahif", NodeType.FLOOR, null, 125f, 25f, 890f);
         given()
-                .when()
+            .when()
                 .contentType("application/json")
                 .body(jsonb.toJson(node))
                 .post("/node")
-                .then()
+            .then()
                 .statusCode(400)
                 .body("parameterViolations[0].message", is("Hidden may not be null!"));
     }
@@ -103,11 +104,11 @@ public class NodeResourceTest {
     void testCreateNodeWithoutX() {
         Node node = new Node(null, "5ahif", NodeType.FLOOR, false, null, 25f, 890f);
         given()
-                .when()
+            .when()
                 .contentType("application/json")
                 .body(jsonb.toJson(node))
                 .post("/node")
-                .then()
+            .then()
                 .statusCode(400)
                 .body("parameterViolations[0].message", is("X may not be null!"));
     }
@@ -116,11 +117,11 @@ public class NodeResourceTest {
     void testCreateNodeWithoutY() {
         Node node = new Node(null, "5ahif", NodeType.FLOOR, false, 125f, null, 890f);
         given()
-                .when()
+            .when()
                 .contentType("application/json")
                 .body(jsonb.toJson(node))
                 .post("/node")
-                .then()
+            .then()
                 .statusCode(400)
                 .body("parameterViolations[0].message", is("Y may not be null!"));
     }
@@ -129,11 +130,11 @@ public class NodeResourceTest {
     void testCreateNodeWithoutZ() {
         Node node = new Node(null, "5ahif", NodeType.FLOOR, false, 125f, 25f, null);
         given()
-                .when()
+            .when()
                 .contentType("application/json")
                 .body(jsonb.toJson(node))
                 .post("/node")
-                .then()
+            .then()
                 .statusCode(400)
                 .body("parameterViolations[0].message", is("Z may not be null!"));
     }
