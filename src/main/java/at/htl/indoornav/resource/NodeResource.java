@@ -39,12 +39,12 @@ public class NodeResource {
 
     @POST
     @Path("/relationship")
-    public Response createRelationship(@QueryParam("start") Long idStart, @QueryParam("end") Long idEnd) {
-        if (idStart == null || idEnd == null) {
+    public Response createRelationship(@QueryParam("start") String startName, @QueryParam("end") String endName) {
+        if (startName == null || endName == null) {
             return Response.status(400).build();
         }
-        Node nodeStart = nodeRepository.getNodeById(idStart);
-        Node nodeEnd = nodeRepository.getNodeById(idEnd);
+        Node nodeStart = nodeRepository.getNodeByName(startName);
+        Node nodeEnd = nodeRepository.getNodeByName(endName);
 
         if (nodeStart == null || nodeEnd == null) {
             return Response.status(400).build();
