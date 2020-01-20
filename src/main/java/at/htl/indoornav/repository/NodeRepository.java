@@ -68,6 +68,18 @@ public class NodeRepository {
         return null;
     }
 
+    public Node getNodeByName(String name) {
+        StatementResult result = driver.session().run(
+                "MATCH (p:Point) WHERE p.name = $name RETURN p", parameters("name", name)
+        );
+
+        if (result.hasNext()) {
+            Record next = result.next();
+            return Node.from(next.get("p").asNode());
+        }
+        return null;
+    }
+
     public void deleteNodeById(Long id) {
         driver.session().run(
                 "MATCH (p:Point) WHERE ID(p) = $id DETACH DELETE p", parameters("id", id)
@@ -82,7 +94,6 @@ public class NodeRepository {
         parameters.put("start", start.getId());
         parameters.put("end", end.getId());
         parameters.put("distance", distance);
-
         driver.session().run(
                 "MATCH (a:Point), (b:Point) WHERE ID(a) = $start AND ID(b) = $end " +
                         "CREATE (a)-[c:CONNECTED_TO { distance: $distance }]->(b)",
@@ -102,12 +113,13 @@ public class NodeRepository {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("startId", start.getId());
         parameters.put("endId", end.getId());
-        parameters.put("type", forHandicapped ? NodeType.STAIRS.name() : null);
+        parameters.put("type", forHandicapped ? NodeType.STAIRS.name() : "null");
+        // TODO: 20.01.20 handicapped handling
 
         StatementResult result = driver.session().run(
                 "MATCH (start:Point), (end:Point) WHERE ID(start) = $startId AND ID(end) = $endId " +
                         "CALL algo.shortestPath.stream(start, end, 'cost',{ " +
-                        "nodeQuery:'MATCH(n:Point) WHERE not n.type = $type RETURN id(n) as id', " +
+                        "nodeQuery:'MATCH(n:Point) RETURN id(n) as id', " +
                         "relationshipQuery:'MATCH(n:Point)-[r:CONNECTED_TO]->(m:Point) RETURN id(n) as source, id(m) as target, r.cost as weight', " +
                         "graph:'cypher'}) YIELD nodeId, cost RETURN nodeId, cost",
                 parameters
