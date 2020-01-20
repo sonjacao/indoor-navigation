@@ -18,8 +18,16 @@ public class PathResource {
     @GET
     @Path("/shortest")
     public Response getShortestPath(@QueryParam("start") Long idStart, @QueryParam("end") Long idEnd) {
+        if (idStart == null || idEnd == null) {
+            return Response.status(400).build();
+        }
+
         Node startNode = nodeRepository.getNodeById(idStart);
         Node endNode = nodeRepository.getNodeById(idEnd);
+
+        if (startNode == null || endNode == null) {
+            return Response.status(400).build();
+        }
 
         return Response.ok(nodeRepository.getShortestPath(startNode, endNode)).build();
     }
