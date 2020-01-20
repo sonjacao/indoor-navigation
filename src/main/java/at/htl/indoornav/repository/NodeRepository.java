@@ -8,7 +8,10 @@ import org.neo4j.driver.StatementResult;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import javax.json.*;
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObjectBuilder;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -118,18 +121,16 @@ public class NodeRepository {
 
         StatementResult result = driver.session().run(
                 "MATCH (start:Point), (end:Point) WHERE ID(start) = $startId AND ID(end) = $endId " +
-                        "CALL algo.shortestPath.stream(start, end, 'cost',{ " +
-                        "nodeQuery:'MATCH(n:Point) RETURN id(n) as id', " +
-                        "relationshipQuery:'MATCH(n:Point)-[r:CONNECTED_TO]->(m:Point) RETURN id(n) as source, id(m) as target, r.cost as weight', " +
-                        "graph:'cypher'}) YIELD nodeId, cost RETURN nodeId, cost",
+                        "CALL algo.shortestPath.stream(start, end, 'distance') " +
+                        "YIELD nodeId, cost RETURN nodeId, cost",
                 parameters
         );
 
         JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
-        int index = 0;
         while (result.hasNext()) {
             Record next = result.next();
-            float cost = next.get("cost").asFloat();
+            // Exception for asFloat
+            float cost = (float) next.get("cost").asDouble();
             long nodeId = next.get("nodeId").asLong();
             Node node = getNodeById(nodeId);
             JsonObjectBuilder jsonNode = Json.createObjectBuilder()
@@ -144,8 +145,7 @@ public class NodeRepository {
             JsonObjectBuilder response = Json.createObjectBuilder()
                     .add("node", jsonNode)
                     .add("distance", cost);
-            arrayBuilder
-                    .set(index++, response);
+            arrayBuilder.add(response);
         }
         return arrayBuilder.build();
     }
