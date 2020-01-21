@@ -17,18 +17,20 @@ public class PathResource {
 
     @GET
     @Path("/shortest")
-    public Response getShortestPath(@QueryParam("start") Long idStart, @QueryParam("end") Long idEnd) {
-        if (idStart == null || idEnd == null) {
+    public Response getShortestPath(@QueryParam("start") String startName, @QueryParam("end") String endName) {
+        System.out.println(startName);
+        System.out.println(endName);
+        if (startName == null || endName == null) {
             return Response.status(400).build();
         }
 
-        Node startNode = nodeRepository.getNodeById(idStart);
-        Node endNode = nodeRepository.getNodeById(idEnd);
-
+        Node startNode = nodeRepository.getNodeByName(startName);
+        Node endNode = nodeRepository.getNodeByName(endName);
+        System.out.println("startNode = " + startNode);
+        System.out.println("endNode = " + endNode);
         if (startNode == null || endNode == null) {
             return Response.status(400).build();
         }
-
         return Response.ok(nodeRepository.getShortestPath(startNode, endNode)).build();
     }
 
