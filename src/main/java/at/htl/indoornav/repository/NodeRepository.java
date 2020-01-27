@@ -34,16 +34,9 @@ public class NodeRepository {
         parameters.put("y", node.getY());
         parameters.put("z", node.getZ());
 
-        StatementResult result = driver.session().writeTransaction(transaction -> transaction.run(
-                "CREATE (p:Point { name: $name, type: $type, isHidden: $isHidden , x: $x, y: $y, z: $z }) RETURN p",
-                parameters
-        ));
+        String queryCreateNode = "CREATE (p:Point { name: $name, type: $type, isHidden: $isHidden , x: $x, y: $y, z: $z }) RETURN p";
 
-        if (result.hasNext()) {
-            Record next = result.next();
-            return Node.from(next.get("p").asNode());
-        }
-        return null;
+        return executeCypherQuery(queryCreateNode, parameters);
     }
 
     public List<Node> getAllNodes() {
@@ -60,15 +53,11 @@ public class NodeRepository {
     }
 
     public Node getNodeByName(String name) {
-        StatementResult result = driver.session().run(
-                "MATCH (p:Point) WHERE p.name = $name RETURN p", parameters("name", name)
-        );
+        String queryGetNode = "MATCH (p:Point) WHERE p.name = $name RETURN p";
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("name", name);
 
-        if (result.hasNext()) {
-            Record next = result.next();
-            return Node.from(next.get("p").asNode());
-        }
-        return null;
+        return executeCypherQuery(queryGetNode, parameters);
     }
 
     public void deleteNodeByName(String name) {
@@ -136,5 +125,17 @@ public class NodeRepository {
             arrayBuilder.add(response);
         }
         return arrayBuilder.build();
+    }
+
+    private Node executeCypherQuery(String queryString, Map<String, Object> parameters) {
+        StatementResult result = driver.session().writeTransaction(transaction ->
+                transaction.run(queryString, parameters)
+        );
+
+        if (result.hasNext()) {
+            Record next = result.next();
+            return Node.from(next.get("p").asNode());
+        }
+        return null;
     }
 }
