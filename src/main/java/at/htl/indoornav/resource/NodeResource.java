@@ -21,6 +21,12 @@ public class NodeResource {
         return Response.ok(nodeRepository.getAllNodes()).build();
     }
 
+    @GET
+    @Path("/{name}")
+    public Response getNodeByName(@PathParam("name") String name) {
+        return Response.ok(nodeRepository.getNodeByName(name)).build();
+    }
+
     @POST
     public Response createNode(@Valid Node node) {
         Node createdNode = nodeRepository.createNode(node);
