@@ -59,18 +59,6 @@ public class NodeRepository {
         return nodes;
     }
 
-    public Node getNodeById(Long id) {
-        StatementResult result = driver.session().run(
-                "MATCH (p:Point) WHERE ID(p) = $id RETURN p", parameters("id", id)
-        );
-
-        if (result.hasNext()) {
-            Record next = result.next();
-            return Node.from(next.get("p").asNode());
-        }
-        return null;
-    }
-
     public Node getNodeByName(String name) {
         StatementResult result = driver.session().run(
                 "MATCH (p:Point) WHERE p.name = $name RETURN p", parameters("name", name)
