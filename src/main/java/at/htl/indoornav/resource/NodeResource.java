@@ -21,16 +21,6 @@ public class NodeResource {
         return Response.ok(nodeRepository.getAllNodes()).build();
     }
 
-    @GET
-    @Path("/{id}")
-    public Response getNodeById(@PathParam("id") Long id) {
-        Node node = nodeRepository.getNodeById(id);
-        if (node == null) {
-            return Response.status(404).build();
-        }
-        return Response.ok(node).build();
-    }
-
     @POST
     public Response createNode(@Valid Node node) {
         Node createdNode = nodeRepository.createNode(node);
@@ -54,9 +44,9 @@ public class NodeResource {
     }
 
     @DELETE
-    @Path("{id}")
-    public Response deleteNodeById(@PathParam("id") Long id)  {
-        nodeRepository.deleteNodeById(id);
+    @Path("/{name}")
+    public Response deleteNodeByName(@PathParam("name") String name) {
+        nodeRepository.deleteNodeByName(name);
         return Response.ok().build();
     }
 }

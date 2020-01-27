@@ -83,9 +83,9 @@ public class NodeRepository {
         return null;
     }
 
-    public void deleteNodeById(Long id) {
+    public void deleteNodeByName(String name) {
         driver.session().run(
-                "MATCH (p:Point) WHERE ID(p) = $id DETACH DELETE p", parameters("id", id)
+                "MATCH (p:Point) WHERE p.name = $name DETACH DELETE p", parameters("name", name)
         );
     }
 
