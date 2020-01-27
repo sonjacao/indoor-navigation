@@ -114,15 +114,15 @@ public class NodeRepository {
 
     private JsonArray getShortestPathByTwoNodes(Node start, Node end, boolean forHandicapped) {
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("startId", start.getId());
-        parameters.put("endId", end.getId());
+        parameters.put("start", start.getName());
+        parameters.put("end", end.getName());
         parameters.put("type", forHandicapped ? NodeType.STAIRS.name() : "null");
         // TODO: 20.01.20 handicapped handling
 
         StatementResult result = driver.session().run(
-                "MATCH (start:Point), (end:Point) WHERE ID(start) = $startId AND ID(end) = $endId " +
+                "MATCH (start:Point), (end:Point) WHERE start.name = $start AND end.name = $end " +
                         "CALL algo.shortestPath.stream(start, end, 'distance') " +
-                        "YIELD nodeId, cost RETURN nodeId, cost",
+                        "YIELD nodeId, cost RETURN algo.asNode(nodeId).name AS name, cost",
                 parameters
         );
 
@@ -131,8 +131,8 @@ public class NodeRepository {
             Record next = result.next();
             // Exception for asFloat
             float cost = (float) next.get("cost").asDouble();
-            long nodeId = next.get("nodeId").asLong();
-            Node node = getNodeById(nodeId);
+            String nodeName = next.get("name").asString();
+            Node node = getNodeByName(nodeName);
             JsonObjectBuilder jsonNode = Json.createObjectBuilder()
                     .add("id", node.getId())
                     .add("name", node.getName())
