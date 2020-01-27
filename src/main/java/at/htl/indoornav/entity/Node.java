@@ -1,5 +1,7 @@
 package at.htl.indoornav.entity;
 
+import at.htl.indoornav.validator.UniqueName;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -7,6 +9,7 @@ public class Node {
 
     private Long id;
     @NotBlank(message = "Name may not be blank!")
+    @UniqueName(message = "Name is already in use!")
     private String name;
     @NotNull(message = "Type may not be null!")
     private NodeType type;
