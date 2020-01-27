@@ -6,8 +6,8 @@ import org.neo4j.driver.Driver;
 import org.neo4j.driver.Record;
 import org.neo4j.driver.StatementResult;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.inject.Singleton;
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
@@ -19,7 +19,7 @@ import java.util.Map;
 
 import static org.neo4j.driver.Values.parameters;
 
-@Singleton
+@ApplicationScoped
 public class NodeRepository {
 
     @Inject
