@@ -36,20 +36,13 @@ public class NodeRepository {
 
         String queryCreateNode = "CREATE (p:Point { name: $name, type: $type, isHidden: $isHidden , x: $x, y: $y, z: $z }) RETURN p";
 
-        return executeCypherQuery(queryCreateNode, parameters);
+        return executeNodeQuery(queryCreateNode, parameters);
     }
 
     public List<Node> getAllNodes() {
-        List<Node> nodes = new LinkedList<>();
-        StatementResult result = driver.session()
-                .run("MATCH (p:Point) RETURN p");
+        String queryAllNodes = "MATCH (p:Point) RETURN p";
 
-        while (result.hasNext()) {
-            Record next = result.next();
-            nodes.add(Node.from(next.get("p").asNode()));
-        }
-
-        return nodes;
+        return executeNodeListQuery(queryAllNodes, null);
     }
 
     public Node getNodeByName(String name) {
@@ -57,7 +50,7 @@ public class NodeRepository {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("name", name);
 
-        return executeCypherQuery(queryGetNode, parameters);
+        return executeNodeQuery(queryGetNode, parameters);
     }
 
     public void deleteNodeByName(String name) {
@@ -127,7 +120,7 @@ public class NodeRepository {
         return arrayBuilder.build();
     }
 
-    private Node executeCypherQuery(String queryString, Map<String, Object> parameters) {
+    private Node executeNodeQuery(String queryString, Map<String, Object> parameters) {
         StatementResult result = driver.session().writeTransaction(transaction ->
                 transaction.run(queryString, parameters)
         );
@@ -137,5 +130,20 @@ public class NodeRepository {
             return Node.from(next.get("p").asNode());
         }
         return null;
+    }
+
+    private List<Node> executeNodeListQuery(String queryString, Map<String, Object> parameters) {
+        List nodes = new LinkedList();
+
+        StatementResult result = driver.session().writeTransaction(transaction ->
+                transaction.run(queryString, parameters)
+        );
+
+        while (result.hasNext()) {
+            Record next = result.next();
+            nodes.add(Node.from(next.get("p").asNode()));
+        }
+
+        return nodes;
     }
 }
