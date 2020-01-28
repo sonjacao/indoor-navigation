@@ -29,9 +29,7 @@ public abstract class BaseRepository {
     }
 
     protected Node executeNodeQuery(String queryString, Map<String, Object> parameters) {
-        StatementResult result = driver.session().writeTransaction(transaction ->
-                transaction.run(queryString, parameters)
-        );
+        StatementResult result = driver.session().writeTransaction(transaction -> transaction.run(queryString, parameters));
 
         if (result.hasNext()) {
             Record next = result.next();
@@ -46,16 +44,12 @@ public abstract class BaseRepository {
 
     protected List<Node> executeNodeListQuery(String queryString, Map<String, Object> parameters) {
         List<Node> nodes = new LinkedList<>();
-
-        StatementResult result = driver.session().writeTransaction(transaction ->
-                transaction.run(queryString, parameters)
-        );
+        StatementResult result = driver.session().writeTransaction(transaction -> transaction.run(queryString, parameters));
 
         while (result.hasNext()) {
             Record next = result.next();
             nodes.add(Node.from(next.get("p").asNode()));
         }
-
         return nodes;
     }
 }
