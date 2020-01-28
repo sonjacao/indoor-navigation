@@ -2,6 +2,7 @@ package at.htl.indoornav.resource;
 
 import at.htl.indoornav.entity.Node;
 import at.htl.indoornav.repository.NodeRepository;
+import at.htl.indoornav.repository.PathRepository;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -14,6 +15,9 @@ public class PathResource {
 
     @Inject
     NodeRepository nodeRepository;
+
+    @Inject
+    PathRepository pathRepository;
 
     @GET
     @Path("/shortest")
@@ -31,7 +35,7 @@ public class PathResource {
         if (startNode == null || endNode == null) {
             return Response.status(400).build();
         }
-        return Response.ok(nodeRepository.getShortestPath(startNode, endNode)).build();
+        return Response.ok(pathRepository.getShortestPath(startNode, endNode)).build();
     }
 
     @GET
@@ -40,6 +44,6 @@ public class PathResource {
         Node startNode = nodeRepository.getNode(nameStart);
         Node endNode = nodeRepository.getNode(nameEnd);
 
-        return Response.ok(nodeRepository.getShortestPathForHandicapped(startNode, endNode)).build();
+        return Response.ok(pathRepository.getShortestPathForHandicapped(startNode, endNode)).build();
     }
 }
