@@ -53,10 +53,12 @@ public class NodeRepository {
         return executeNodeQuery(queryGetNode, parameters);
     }
 
-    public void deleteNodeByName(String name) {
-        driver.session().run(
-                "MATCH (p:Point) WHERE p.name = $name DETACH DELETE p", parameters("name", name)
-        );
+    public int deleteNode(String name) {
+        String query = "MATCH (p:Point) WHERE p.name = $name DETACH DELETE p RETURN COUNT(p) as c";
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("name", name);
+
+        return executeUpdate(query, parameters);
     }
 
     public void createRelationship(Node start, Node end) {
@@ -118,6 +120,15 @@ public class NodeRepository {
             arrayBuilder.add(response);
         }
         return arrayBuilder.build();
+    }
+
+    private int executeUpdate(String query) {
+        return executeUpdate(query, null);
+    }
+
+    private int executeUpdate(String query, Map<String, Object> parameters) {
+        StatementResult result = driver.session().writeTransaction(transaction -> transaction.run(query, parameters));
+        return result.next().get("c").asInt();
     }
 
     private Node executeNodeQuery(String queryString) {

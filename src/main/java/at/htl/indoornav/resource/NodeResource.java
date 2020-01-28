@@ -52,7 +52,7 @@ public class NodeResource {
     @DELETE
     @Path("/{name}")
     public Response deleteNodeByName(@PathParam("name") String name) {
-        nodeRepository.deleteNodeByName(name);
+        nodeRepository.deleteNode(name);
         return Response.ok().build();
     }
 }
