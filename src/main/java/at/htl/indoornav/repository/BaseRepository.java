@@ -5,14 +5,12 @@ import org.neo4j.driver.Driver;
 import org.neo4j.driver.Record;
 import org.neo4j.driver.StatementResult;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-@ApplicationScoped
-public class BaseRepository {
+public abstract class BaseRepository {
 
     @Inject
     Driver driver;
