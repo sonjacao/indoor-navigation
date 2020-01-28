@@ -52,4 +52,32 @@ public abstract class BaseRepository {
         }
         return nodes;
     }
+
+    protected Record executeQuery(String query) {
+        return executeQuery(query, null);
+    }
+
+    protected Record executeQuery(String query, Map<String, Object> parameters) {
+        StatementResult result = driver.session().writeTransaction(transaction -> transaction.run(query, parameters));
+
+        if (result.hasNext()) {
+            return result.next();
+        }
+        return null;
+    }
+
+    protected List<Record> executeQueryList(String query) {
+        return executeQueryList(query, null);
+    }
+
+    protected List<Record> executeQueryList(String query, Map<String, Object> parameters) {
+        List<Record> records = new LinkedList<>();
+        StatementResult result = driver.session().writeTransaction(transaction -> transaction.run(query, parameters));
+
+        while (result.hasNext()) {
+            records.add(result.next());
+        }
+
+        return records;
+    }
 }
