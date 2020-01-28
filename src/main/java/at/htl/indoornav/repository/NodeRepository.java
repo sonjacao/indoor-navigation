@@ -45,7 +45,7 @@ public class NodeRepository {
         return executeNodeListQuery(queryAllNodes, null);
     }
 
-    public Node getNodeByName(String name) {
+    public Node getNode(String name) {
         String queryGetNode = "MATCH (p:Point) WHERE p.name = $name RETURN p";
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("name", name);
@@ -102,7 +102,7 @@ public class NodeRepository {
             // Exception for asFloat
             float cost = (float) next.get("cost").asDouble();
             String nodeName = next.get("name").asString();
-            Node node = getNodeByName(nodeName);
+            Node node = getNode(nodeName);
             JsonObjectBuilder jsonNode = Json.createObjectBuilder()
                     .add("id", node.getId())
                     .add("name", node.getName())

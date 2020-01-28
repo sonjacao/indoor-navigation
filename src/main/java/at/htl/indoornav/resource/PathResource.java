@@ -24,8 +24,8 @@ public class PathResource {
             return Response.status(400).build();
         }
 
-        Node startNode = nodeRepository.getNodeByName(startName);
-        Node endNode = nodeRepository.getNodeByName(endName);
+        Node startNode = nodeRepository.getNode(startName);
+        Node endNode = nodeRepository.getNode(endName);
         System.out.println("startNode = " + startNode);
         System.out.println("endNode = " + endNode);
         if (startNode == null || endNode == null) {
@@ -37,8 +37,8 @@ public class PathResource {
     @GET
     @Path("/handicapped")
     public Response getShortestPathForHandicapped(@QueryParam("start") String nameStart, @QueryParam("end") String nameEnd) {
-        Node startNode = nodeRepository.getNodeByName(nameStart);
-        Node endNode = nodeRepository.getNodeByName(nameEnd);
+        Node startNode = nodeRepository.getNode(nameStart);
+        Node endNode = nodeRepository.getNode(nameEnd);
 
         return Response.ok(nodeRepository.getShortestPathForHandicapped(startNode, endNode)).build();
     }

@@ -24,7 +24,7 @@ public class NodeResource {
     @GET
     @Path("/{name}")
     public Response getNodeByName(@PathParam("name") String name) {
-        return Response.ok(nodeRepository.getNodeByName(name)).build();
+        return Response.ok(nodeRepository.getNode(name)).build();
     }
 
     @POST
@@ -39,8 +39,8 @@ public class NodeResource {
         if (startName == null || endName == null) {
             return Response.status(400).build();
         }
-        Node nodeStart = nodeRepository.getNodeByName(startName);
-        Node nodeEnd = nodeRepository.getNodeByName(endName);
+        Node nodeStart = nodeRepository.getNode(startName);
+        Node nodeEnd = nodeRepository.getNode(endName);
 
         if (nodeStart == null || nodeEnd == null) {
             return Response.status(400).build();

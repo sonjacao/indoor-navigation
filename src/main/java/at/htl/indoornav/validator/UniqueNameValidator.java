@@ -1,6 +1,5 @@
 package at.htl.indoornav.validator;
 
-import at.htl.indoornav.entity.Node;
 import at.htl.indoornav.repository.NodeRepository;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -20,6 +19,6 @@ public class UniqueNameValidator implements ConstraintValidator<UniqueName, Stri
 
     @Override
     public boolean isValid(String name, ConstraintValidatorContext context) {
-        return name != null && nodeRepository.getNodeByName(name) == null;
+        return name != null && nodeRepository.getNode(name) == null;
     }
 }
