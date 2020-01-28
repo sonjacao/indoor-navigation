@@ -40,24 +40,20 @@ public class NodeResourceTest {
 
     @Test
     void testCreateNode() {
-        Node node = new Node(null, "5ahif", NodeType.FLOOR, false, 125f, 25f, 890f);
-        long id = given()
+        Node node = new Node(null, "4ahitm", NodeType.FLOOR, false, 125f, 25f, 890f);
+        String name = given()
             .when()
                 .contentType("application/json")
                 .body(jsonb.toJson(node))
                 .post("/node")
             .then()
                 .statusCode(200)
+                .body("name", is("4ahitm"))
                 .extract()
                 .jsonPath()
-                .getLong("id");
+                .getString("name");
 
-        given()
-            .when()
-                .pathParam("id", id)
-                .delete("/node/{id}")
-            .then()
-                .statusCode(200);
+        deleteNode(name);
     }
 
     @Test
@@ -88,7 +84,7 @@ public class NodeResourceTest {
 
     @Test
     void testCreateNodeWithoutNodeType() {
-        Node node = new Node(null, "5ahif", null, false, 125f, 25f, 890f);
+        Node node = new Node(null, "4ahitm", null, false, 125f, 25f, 890f);
         given()
             .when()
                 .contentType("application/json")
@@ -104,29 +100,25 @@ public class NodeResourceTest {
         JsonObject jsonObject = Json.createObjectBuilder()
                 .add("name", "4ahitm")
                 .add("type", "FLOOR")
-                .add("hidden", false)
+                .add("isHidden", false)
                 .add("x", 5)
                 .add("y", 5)
                 .add("z", 5)
                 .build();
 
-        long id = given()
+        String name = given()
             .when()
                 .contentType("application/json")
                 .body(jsonObject.toString())
                 .post("/node")
             .then()
                 .statusCode(200)
+                .body("name", is("4ahitm"))
                 .extract()
                 .jsonPath()
-                .getLong("id");
+                .getString("name");
 
-        given()
-            .when()
-                .pathParam("id", id)
-                .delete("/node/{id}")
-            .then()
-                .statusCode(200);
+        deleteNode(name);
     }
 
     @Test
@@ -134,29 +126,25 @@ public class NodeResourceTest {
         JsonObject jsonObject = Json.createObjectBuilder()
                 .add("name", "4ahitm")
                 .add("type", "STAIRS")
-                .add("hidden", false)
+                .add("isHidden", false)
                 .add("x", 5)
                 .add("y", 5)
                 .add("z", 5)
                 .build();
 
-        long id = given()
+        String name = given()
             .when()
                 .contentType("application/json")
                 .body(jsonObject.toString())
                 .post("/node")
             .then()
                 .statusCode(200)
+                .body("name", is("4ahitm"))
                 .extract()
                 .jsonPath()
-                .getLong("id");
+                .getString("name");
 
-        given()
-            .when()
-                .pathParam("id", id)
-                .delete("/node/{id}")
-            .then()
-                .statusCode(200);
+        deleteNode(name);
     }
 
     @Test
@@ -164,13 +152,13 @@ public class NodeResourceTest {
         JsonObject jsonObject = Json.createObjectBuilder()
                 .add("name", "4ahitm")
                 .add("type", "ELEVATOR")
-                .add("hidden", false)
+                .add("isHidden", false)
                 .add("x", 5)
                 .add("y", 5)
                 .add("z", 5)
                 .build();
 
-        long id = given()
+        String name = given()
             .when()
                 .contentType("application/json")
                 .body(jsonObject.toString())
@@ -179,19 +167,14 @@ public class NodeResourceTest {
                 .statusCode(200)
                 .extract()
                 .jsonPath()
-                .getLong("id");
+                .getString("name");
 
-        given()
-            .when()
-                .pathParam("id", id)
-                .delete("/node/{id}")
-            .then()
-                .statusCode(200);
+        deleteNode(name);
     }
 
     @Test
     void testCreateNodeWithoutHidden() {
-        Node node = new Node(null, "5ahif", NodeType.FLOOR, null, 125f, 25f, 890f);
+        Node node = new Node(null, "4ahitm", NodeType.FLOOR, null, 125f, 25f, 890f);
         given()
             .when()
                 .contentType("application/json")
@@ -204,7 +187,7 @@ public class NodeResourceTest {
 
     @Test
     void testCreateNodeWithoutX() {
-        Node node = new Node(null, "5ahif", NodeType.FLOOR, false, null, 25f, 890f);
+        Node node = new Node(null, "4ahitm", NodeType.FLOOR, false, null, 25f, 890f);
         given()
             .when()
                 .contentType("application/json")
@@ -217,7 +200,7 @@ public class NodeResourceTest {
 
     @Test
     void testCreateNodeWithoutY() {
-        Node node = new Node(null, "5ahif", NodeType.FLOOR, false, 125f, null, 890f);
+        Node node = new Node(null, "4ahitm", NodeType.FLOOR, false, 125f, null, 890f);
         given()
             .when()
                 .contentType("application/json")
@@ -230,7 +213,7 @@ public class NodeResourceTest {
 
     @Test
     void testCreateNodeWithoutZ() {
-        Node node = new Node(null, "5ahif", NodeType.FLOOR, false, 125f, 25f, null);
+        Node node = new Node(null, "4ahitm", NodeType.FLOOR, false, 125f, 25f, null);
         given()
             .when()
                 .contentType("application/json")
@@ -242,45 +225,41 @@ public class NodeResourceTest {
     }
 
     @Test
-    void testGetNodeById() {
-        Node node = new Node(null, "5ahif", NodeType.FLOOR, false, 125f, 25f, 890f);
-        long id = given()
+    void testGetNode() {
+        Node node = new Node(null, "4ahitm", NodeType.FLOOR, false, 125f, 25f, 890f);
+        String name = given()
             .when()
                 .contentType("application/json")
                 .body(jsonb.toJson(node))
                 .post("/node")
             .then()
                 .statusCode(200)
+                .body("name", is("4ahitm"))
                 .extract()
                 .jsonPath()
-                .getLong("id");
+                .getString("name");
 
         given()
             .when()
-                .pathParam("id", id)
-                .get("/node/{id}")
+                .pathParam("name", name)
+                .get("/node/{name}")
             .then()
                 .statusCode(200);
 
-        given()
-            .when()
-                .pathParam("id", id)
-                .delete("/node/{id}")
-            .then()
-                .statusCode(200);
+        deleteNode(name);
     }
 
     @Test
-    void testGetNodeByNotExistingId() {
+    void testGetNotExistingNode() {
         given()
             .when()
-                .pathParam("id", 170302)
-                .get("/node/{id}")
+                .pathParam("name", "69ahitm")
+                .get("/node/{name}")
             .then()
                 .statusCode(404);
     }
 
-/*    @Test
+    @Test
     void testCreateRelationship() {
         Node startNode = new Node(null, "4ahitm", NodeType.FLOOR, false, 125f, 25f, 890f);
         String startName = given()
@@ -290,11 +269,12 @@ public class NodeResourceTest {
                 .post("/node")
             .then()
                 .statusCode(200)
+                .body("name", is("4ahitm"))
                 .extract()
-                .jsonPath()
-                .getString("name");
+                    .jsonPath()
+                    .getString("name");
 
-        Node endNode = new Node(null, "5ahif", NodeType.FLOOR, false, 125f, 25f, 890f);
+        Node endNode = new Node(null, "4bhitm", NodeType.FLOOR, false, 300f, 25f, 450f);
         String endName = given()
             .when()
                 .contentType("application/json")
@@ -302,9 +282,10 @@ public class NodeResourceTest {
                 .post("/node")
             .then()
                 .statusCode(200)
+                .body("name", is("4bhitm"))
                 .extract()
-                .jsonPath()
-                .getString("name");
+                    .jsonPath()
+                    .getString("name");
 
         given()
             .when()
@@ -315,53 +296,50 @@ public class NodeResourceTest {
             .then()
                 .statusCode(200);
 
+        deleteNode(startName);
+        deleteNode(endName);
+    }
+
+    @Test
+    void testCreateRelationshipWithoutStart() {
         given()
             .when()
-                .pathParam("id", startName)
-                .delete("/node/{id}")
+                .contentType("application/json")
+                .queryParam("end", "4ahitm")
+                .post("/node/relationship")
+            .then()
+                .statusCode(400);
+    }
+
+    @Test
+    void testCreateRelationshipWithoutEnd() {
+        given()
+            .when()
+                .contentType("application/json")
+                .queryParam("start", "4ahitm")
+                .post("/node/relationship")
+            .then()
+                .statusCode(400);
+    }
+
+    @Test
+    void testCreateRelationshipWithNotExistingNames() {
+        given()
+            .when()
+                .contentType("application/json")
+                .queryParam("start", "69ahitm")
+                .queryParam("end", "96ahitm")
+                .post("/node/relationship")
+            .then()
+                .statusCode(400);
+    }
+
+    void deleteNode(String name) {
+        given()
+            .when()
+                .pathParam("name", name)
+                .delete("/node/{name}")
             .then()
                 .statusCode(200);
-
-        given()
-            .when()
-                .pathParam("id", endName)
-                .delete("/node/{id}")
-            .then()
-                .statusCode(200);
-    }*/
-
-    @Test
-    void testCreateRelationshipWithoutStartId() {
-        given()
-            .when()
-                .contentType("application/json")
-                .queryParam("end", 2)
-                .post("/node/relationship")
-            .then()
-                .statusCode(400);
     }
-
-    @Test
-    void testCreateRelationshipWithoutEndId() {
-        given()
-            .when()
-                .contentType("application/json")
-                .queryParam("start", 2)
-                .post("/node/relationship")
-            .then()
-                .statusCode(400);
-    }
-
-    @Test
-    void testCreateRelationshipWithNotExistingIds() {
-        given()
-            .when()
-                .contentType("application/json")
-                .queryParam("start", 170102)
-                .queryParam("end", 170302)
-                .post("/node/relationship")
-            .then()
-                .statusCode(400);
-    }
-
 }
