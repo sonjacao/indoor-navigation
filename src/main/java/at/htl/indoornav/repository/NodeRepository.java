@@ -120,6 +120,10 @@ public class NodeRepository {
         return arrayBuilder.build();
     }
 
+    private Node executeNodeQuery(String queryString) {
+        return executeNodeQuery(queryString, null);
+    }
+
     private Node executeNodeQuery(String queryString, Map<String, Object> parameters) {
         StatementResult result = driver.session().writeTransaction(transaction ->
                 transaction.run(queryString, parameters)
