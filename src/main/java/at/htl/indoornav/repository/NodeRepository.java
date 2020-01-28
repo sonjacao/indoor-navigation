@@ -133,7 +133,7 @@ public class NodeRepository {
     }
 
     private List<Node> executeNodeListQuery(String queryString, Map<String, Object> parameters) {
-        List nodes = new LinkedList();
+        List<Node> nodes = new LinkedList<>();
 
         StatementResult result = driver.session().writeTransaction(transaction ->
                 transaction.run(queryString, parameters)
