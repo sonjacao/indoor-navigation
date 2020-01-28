@@ -42,7 +42,7 @@ public class NodeRepository {
     public List<Node> getAllNodes() {
         String queryAllNodes = "MATCH (p:Point) RETURN p";
 
-        return executeNodeListQuery(queryAllNodes, null);
+        return executeNodeListQuery(queryAllNodes);
     }
 
     public Node getNode(String name) {
@@ -130,6 +130,10 @@ public class NodeRepository {
             return Node.from(next.get("p").asNode());
         }
         return null;
+    }
+
+    private List<Node> executeNodeListQuery(String queryString) {
+        return executeNodeListQuery(queryString, null);
     }
 
     private List<Node> executeNodeListQuery(String queryString, Map<String, Object> parameters) {
