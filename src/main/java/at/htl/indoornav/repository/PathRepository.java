@@ -53,7 +53,7 @@ public class PathRepository extends BaseRepository {
                     .add("id", node.getId())
                     .add("name", node.getName())
                     .add("type", node.getType().name())
-                    .add("isHidden", node.isHidden())
+                    .add("isHidden", node.getIsHidden())
                     .add("x", node.getX())
                     .add("y", node.getY())
                     .add("z", node.getZ());

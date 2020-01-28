@@ -71,11 +71,11 @@ public class Node {
         this.type = nodeType;
     }
 
-    public Boolean isHidden() {
+    public Boolean getIsHidden() {
         return isHidden;
     }
 
-    public void setHidden(Boolean isHidden) {
+    public void setIsHidden(Boolean isHidden) {
         this.isHidden = isHidden;
     }
 

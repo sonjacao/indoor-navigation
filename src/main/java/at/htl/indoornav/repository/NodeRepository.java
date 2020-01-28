@@ -1,23 +1,11 @@
 package at.htl.indoornav.repository;
 
 import at.htl.indoornav.entity.Node;
-import at.htl.indoornav.entity.NodeType;
-import org.neo4j.driver.Driver;
-import org.neo4j.driver.Record;
-import org.neo4j.driver.StatementResult;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObjectBuilder;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
-import static org.neo4j.driver.Values.parameters;
 
 @ApplicationScoped
 public class NodeRepository extends BaseRepository {
@@ -26,7 +14,7 @@ public class NodeRepository extends BaseRepository {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("name", node.getName());
         parameters.put("type", node.getType().name());
-        parameters.put("isHidden", node.isHidden());
+        parameters.put("isHidden", node.getIsHidden());
         parameters.put("x", node.getX());
         parameters.put("y", node.getY());
         parameters.put("z", node.getZ());
