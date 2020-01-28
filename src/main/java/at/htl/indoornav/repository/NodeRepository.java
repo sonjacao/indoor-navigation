@@ -20,10 +20,7 @@ import java.util.Map;
 import static org.neo4j.driver.Values.parameters;
 
 @ApplicationScoped
-public class NodeRepository {
-
-    @Inject
-    Driver driver;
+public class NodeRepository extends BaseRepository {
 
     public Node createNode(Node node) {
         Map<String, Object> parameters = new HashMap<>();
@@ -120,49 +117,5 @@ public class NodeRepository {
             arrayBuilder.add(response);
         }
         return arrayBuilder.build();
-    }
-
-    private int executeUpdate(String query) {
-        return executeUpdate(query, null);
-    }
-
-    private int executeUpdate(String query, Map<String, Object> parameters) {
-        StatementResult result = driver.session().writeTransaction(transaction -> transaction.run(query, parameters));
-        return result.next().get("c").asInt();
-    }
-
-    private Node executeNodeQuery(String queryString) {
-        return executeNodeQuery(queryString, null);
-    }
-
-    private Node executeNodeQuery(String queryString, Map<String, Object> parameters) {
-        StatementResult result = driver.session().writeTransaction(transaction ->
-                transaction.run(queryString, parameters)
-        );
-
-        if (result.hasNext()) {
-            Record next = result.next();
-            return Node.from(next.get("p").asNode());
-        }
-        return null;
-    }
-
-    private List<Node> executeNodeListQuery(String queryString) {
-        return executeNodeListQuery(queryString, null);
-    }
-
-    private List<Node> executeNodeListQuery(String queryString, Map<String, Object> parameters) {
-        List<Node> nodes = new LinkedList<>();
-
-        StatementResult result = driver.session().writeTransaction(transaction ->
-                transaction.run(queryString, parameters)
-        );
-
-        while (result.hasNext()) {
-            Record next = result.next();
-            nodes.add(Node.from(next.get("p").asNode()));
-        }
-
-        return nodes;
     }
 }
