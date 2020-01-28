@@ -5,6 +5,7 @@ import at.htl.indoornav.repository.NodeRepository;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
@@ -39,16 +40,14 @@ public class NodeResource {
 
     @POST
     @Path("/relationship")
-    public Response createRelationship(@QueryParam("start") String startName, @QueryParam("end") String endName) {
-        if (startName == null || endName == null) {
-            return Response.status(400).build();
-        }
-        Node nodeStart = nodeRepository.getNode(startName);
-        Node nodeEnd = nodeRepository.getNode(endName);
+    public Response createRelationship(@NotNull @QueryParam("start") String start, @NotNull @QueryParam("end") String end) {
+        Node nodeStart = nodeRepository.getNode(start);
+        Node nodeEnd = nodeRepository.getNode(end);
 
         if (nodeStart == null || nodeEnd == null) {
-            return Response.status(400).build();
+            return Response.status(404).build();
         }
+
         nodeRepository.createRelationship(nodeStart, nodeEnd);
         return Response.ok().build();
     }
