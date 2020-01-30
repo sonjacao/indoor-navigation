@@ -24,7 +24,7 @@ public class NodeResource {
 
     @GET
     @Path("/{name}")
-    public Response getNodeByName(@PathParam("name") String name) {
+    public Response getNode(@PathParam("name") String name) {
         Node node = nodeRepository.getNode(name);
         if (node == null) {
             return Response.status(404).build();
