@@ -39,7 +39,7 @@ public class NodeResource {
 
     @DELETE
     @Path("/{name}")
-    public Response deleteNodeByName(@PathParam("name") String name) {
+    public Response deleteNode(@PathParam("name") String name) {
         nodeRepository.deleteNode(name);
         return Response.ok().build();
     }
