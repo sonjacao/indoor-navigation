@@ -26,4 +26,14 @@ public class RelationshipRepository extends BaseRepository {
 
         return executeUpdate(query, parameters);
     }
+
+    public int deleteRelationship(Node start, Node end) {
+        String query = "MATCH (a:Point { name: $start })-[c:CONNECTED_TO]-(b: Point { name: $end }) " +
+                "DELETE c RETURN COUNT(c) as c";
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("start", start.getName());
+        parameters.put("end", end.getName());
+
+        return executeUpdate(query, parameters);
+    }
 }

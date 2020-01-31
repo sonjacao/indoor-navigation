@@ -6,6 +6,7 @@ import at.htl.indoornav.repository.RelationshipRepository;
 
 import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
@@ -33,5 +34,16 @@ public class RelationshipResource {
         return Response.ok().build();
     }
 
+    @DELETE
+    public Response deleteRelationship(@NotNull @QueryParam("start") String start, @NotNull @QueryParam("end") String end) {
+        Node nodeStart = nodeRepository.getNode(start);
+        Node nodeEnd = nodeRepository.getNode(end);
 
+        if (nodeStart == null || nodeEnd == null) {
+            return Response.status(404).build();
+        }
+
+        relationshipRepository.deleteRelationship(nodeStart, nodeEnd);
+        return Response.noContent().build();
+    }
 }
