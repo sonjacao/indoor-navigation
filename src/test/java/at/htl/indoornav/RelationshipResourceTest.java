@@ -137,6 +137,40 @@ public class RelationshipResourceTest {
         deleteNode("4bhitm");
     }
 
+    @Test
+    void testDeleteRelationshipWithoutStart() {
+        given()
+            .when()
+                .contentType("application/json")
+                .queryParam("end", "4ahitm")
+                .post("/relationship")
+            .then()
+                .statusCode(400);
+    }
+
+    @Test
+    void testDeleteRelationshipWithoutEnd() {
+        given()
+            .when()
+                .contentType("application/json")
+                .queryParam("start", "4ahitm")
+                .post("/relationship")
+            .then()
+                .statusCode(400);
+    }
+
+    @Test
+    void testDeleteRelationshipWithNotExistingNames() {
+        given()
+            .when()
+                .contentType("application/json")
+                .queryParam("start", "69ahitm")
+                .queryParam("end", "96ahitm")
+            .post("/relationship")
+                .then()
+                .statusCode(404);
+    }
+
     void deleteNode(String name) {
         given()
             .when()
