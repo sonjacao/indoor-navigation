@@ -26,6 +26,10 @@ public class Result {
     }
 
     public void removeNameForUpdate(String name) {
+        if (failedFields == null || failedFields.size() == 0) {
+            return;
+        }
+
         for (FailedField failedField : failedFields) {
             // When the new name is same as the old name, remove it from the failed fields
             if (failedField.getKey().equals("name") && failedField.getValue().equals(name)) {
