@@ -239,15 +239,39 @@ public class NodeResourceTest {
                 .statusCode(404);
     }
 
-    void createNode(Node node) {
+    @Test
+    void testUpdateNodeName() {
+        Node node = new Node(null, "4ahitm", NodeType.FLOOR, false, 125f, 25f, 890f);
+        int nodeId = createNode(node);
+
+        Node nodeUpdated = new Node(null, "5ahitm", NodeType.FLOOR, false, 125f, 25f, 890f);
+
         given()
+            .when()
+                .contentType("application/json")
+                .body(jsonb.toJson(nodeUpdated))
+                .pathParam("name", node.getName())
+                .put("/node/{name}")
+            .then()
+                .statusCode(200)
+                .body("name", is("5ahitm"))
+                .body("id", is(nodeId));
+
+        deleteNode(node.getName());
+    }
+
+    int createNode(Node node) {
+        return given()
             .when()
                 .contentType("application/json")
                 .body(jsonb.toJson(node))
                 .post("/node")
             .then()
                 .statusCode(200)
-                .body("name", is(node.getName()));
+                .body("name", is(node.getName()))
+                .extract()
+                    .jsonPath()
+                    .getInt("id");
     }
 
     void deleteNode(String name) {
