@@ -41,19 +41,8 @@ public class NodeResourceTest {
     @Test
     void testCreateNode() {
         Node node = new Node(null, "4ahitm", NodeType.FLOOR, false, 125f, 25f, 890f);
-        String name = given()
-            .when()
-                .contentType("application/json")
-                .body(jsonb.toJson(node))
-                .post("/node")
-            .then()
-                .statusCode(200)
-                .body("name", is("4ahitm"))
-                .extract()
-                .jsonPath()
-                .getString("name");
-
-        deleteNode(name);
+        createNode(node);
+        deleteNode(node.getName());
     }
 
     @Test
@@ -132,19 +121,16 @@ public class NodeResourceTest {
                 .add("z", 5)
                 .build();
 
-        String name = given()
+        given()
             .when()
                 .contentType("application/json")
                 .body(jsonObject.toString())
                 .post("/node")
             .then()
                 .statusCode(200)
-                .body("name", is("4ahitm"))
-                .extract()
-                .jsonPath()
-                .getString("name");
+                .body("name", is("4ahitm"));
 
-        deleteNode(name);
+        deleteNode("4ahitm");
     }
 
     @Test
@@ -158,18 +144,15 @@ public class NodeResourceTest {
                 .add("z", 5)
                 .build();
 
-        String name = given()
+        given()
             .when()
                 .contentType("application/json")
                 .body(jsonObject.toString())
                 .post("/node")
             .then()
-                .statusCode(200)
-                .extract()
-                .jsonPath()
-                .getString("name");
+                .statusCode(200);
 
-        deleteNode(name);
+        deleteNode("4ahitm");
     }
 
     @Test
@@ -227,26 +210,23 @@ public class NodeResourceTest {
     @Test
     void testGetNode() {
         Node node = new Node(null, "4ahitm", NodeType.FLOOR, false, 125f, 25f, 890f);
-        String name = given()
+        given()
             .when()
                 .contentType("application/json")
                 .body(jsonb.toJson(node))
                 .post("/node")
             .then()
                 .statusCode(200)
-                .body("name", is("4ahitm"))
-                .extract()
-                .jsonPath()
-                .getString("name");
+                .body("name", is(node.getName()));
 
         given()
             .when()
-                .pathParam("name", name)
+                .pathParam("name", node.getName())
                 .get("/node/{name}")
             .then()
                 .statusCode(200);
 
-        deleteNode(name);
+        deleteNode(node.getName());
     }
 
     @Test
@@ -257,6 +237,17 @@ public class NodeResourceTest {
                 .get("/node/{name}")
             .then()
                 .statusCode(404);
+    }
+
+    void createNode(Node node) {
+        given()
+            .when()
+                .contentType("application/json")
+                .body(jsonb.toJson(node))
+                .post("/node")
+            .then()
+                .statusCode(200)
+                .body("name", is(node.getName()));
     }
 
     void deleteNode(String name) {

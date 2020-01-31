@@ -30,42 +30,22 @@ public class RelationshipResourceTest {
     @Test
     void testCreateRelationship() {
         Node startNode = new Node(null, "4ahitm", NodeType.FLOOR, false, 125f, 25f, 890f);
-        String startName = given()
-            .when()
-                .contentType("application/json")
-                .body(jsonb.toJson(startNode))
-                .post("/node")
-            .then()
-                .statusCode(200)
-                .body("name", is("4ahitm"))
-                .extract()
-                    .jsonPath()
-                    .getString("name");
+        createNode(startNode);
 
         Node endNode = new Node(null, "4bhitm", NodeType.FLOOR, false, 300f, 25f, 450f);
-        String endName = given()
-            .when()
-                .contentType("application/json")
-                .body(jsonb.toJson(endNode))
-                .post("/node")
-            .then()
-                .statusCode(200)
-                .body("name", is("4bhitm"))
-                .extract()
-                    .jsonPath()
-                    .getString("name");
+        createNode(endNode);
 
         given()
             .when()
                 .contentType("application/json")
-                .queryParam("start", startName)
-                .queryParam("end", endName)
+                .queryParam("start", startNode.getName())
+                .queryParam("end", endNode.getName())
                 .post("/relationship")
             .then()
                 .statusCode(200);
 
-        deleteNode(startName);
-        deleteNode(endName);
+        deleteNode(startNode.getName());
+        deleteNode(endNode.getName());
     }
 
     @Test
@@ -105,24 +85,10 @@ public class RelationshipResourceTest {
     @Test
     void testDeleteRelationship() {
         Node startNode = new Node(null, "4ahitm", NodeType.FLOOR, false, 125f, 25f, 890f);
-        given()
-            .when()
-                .contentType("application/json")
-                .body(jsonb.toJson(startNode))
-                .post("/node")
-            .then()
-                .statusCode(200)
-                .body("name", is("4ahitm"));
+        createNode(startNode);
 
         Node endNode = new Node(null, "4bhitm", NodeType.FLOOR, false, 300f, 25f, 450f);
-        given()
-            .when()
-                .contentType("application/json")
-                .body(jsonb.toJson(endNode))
-                .post("/node")
-            .then()
-                .statusCode(200)
-                .body("name", is("4bhitm"));
+        createNode(endNode);
 
         given()
             .when()
@@ -169,6 +135,17 @@ public class RelationshipResourceTest {
             .post("/relationship")
                 .then()
                 .statusCode(404);
+    }
+
+    void createNode(Node node) {
+        given()
+            .when()
+                .contentType("application/json")
+                .body(jsonb.toJson(node))
+                .post("/node")
+            .then()
+                .statusCode(200)
+                .body("name", is(node.getName()));
     }
 
     void deleteNode(String name) {
