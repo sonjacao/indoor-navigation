@@ -45,6 +45,24 @@ public class NodeResource {
         return Response.ok(createdNode).build();
     }
 
+    @PUT
+    @Path("/{name}")
+    public Response updateNode(@PathParam("name") String name, Node node) {
+        Node nodeToUpdate = nodeRepository.getNode(name);
+        if (nodeToUpdate == null) {
+            return Response.status(400).build();
+        }
+
+        Result validation = validationService.getValidationResult(node);
+        validation.removeNameForUpdate(name);
+
+        if (!validation.getIsSuccessful()) {
+            return Response.status(400).entity(validation).build();
+        }
+
+        return Response.noContent().build();
+    }
+
     @DELETE
     @Path("/{name}")
     public Response deleteNode(@PathParam("name") String name) {

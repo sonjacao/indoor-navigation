@@ -25,6 +25,19 @@ public class Result {
                 )).collect(Collectors.toList());
     }
 
+    public void removeNameForUpdate(String name) {
+        for (FailedField failedField : failedFields) {
+            // When the new name is same as the old name, remove it from the failed fields
+            if (failedField.getKey().equals("name") && failedField.getValue().equals(name)) {
+                failedFields.remove(failedField);
+                if (failedFields.size() == 0) {
+                    isSuccessful = true;
+                }
+                break;
+            }
+        }
+    }
+
     public boolean getIsSuccessful() {
         return isSuccessful;
     }
