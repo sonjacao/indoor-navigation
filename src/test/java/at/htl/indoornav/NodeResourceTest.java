@@ -260,6 +260,17 @@ public class NodeResourceTest {
         deleteNode(nodeUpdated.getName());
     }
 
+    @Test
+    void testUpdateNotExistingName() {
+        given()
+            .when()
+                .contentType("application/json")
+                .pathParam("name", "69ahitm")
+                .put("/node/{name}")
+            .then()
+                .statusCode(404);
+    }
+
     int createNode(Node node) {
         return given()
             .when()
