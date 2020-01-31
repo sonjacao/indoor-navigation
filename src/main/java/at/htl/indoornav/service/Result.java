@@ -20,7 +20,8 @@ public class Result {
                 .map(o -> new FailedField(
                         o.getPropertyPath().toString(),
                         o.getInvalidValue() != null ? o.getInvalidValue().toString() : "",
-                        o.getMessage()
+                        o.getMessage(),
+                        o.getConstraintDescriptor().getAnnotation()
                 )).collect(Collectors.toList());
     }
 
