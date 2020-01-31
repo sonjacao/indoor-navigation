@@ -2,9 +2,10 @@ package at.htl.indoornav.resource;
 
 import at.htl.indoornav.entity.Node;
 import at.htl.indoornav.repository.NodeRepository;
+import at.htl.indoornav.service.Result;
+import at.htl.indoornav.service.ValidationService;
 
 import javax.inject.Inject;
-import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
@@ -15,6 +16,9 @@ public class NodeResource {
 
     @Inject
     NodeRepository nodeRepository;
+
+    @Inject
+    ValidationService validationService;
 
     @GET
     public Response getAllNodes() {
@@ -32,7 +36,11 @@ public class NodeResource {
     }
 
     @POST
-    public Response createNode(@Valid Node node) {
+    public Response createNode(Node node) {
+        Result validation = validationService.getValidationResult(node);
+        if (!validation.getIsSuccessful()) {
+            return Response.status(400).entity(validation).build();
+        }
         Node createdNode = nodeRepository.createNode(node);
         return Response.ok(createdNode).build();
     }
