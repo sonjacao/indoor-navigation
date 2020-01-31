@@ -66,7 +66,7 @@ public class NodeResourceTest {
                 .post("/node")
             .then()
                 .statusCode(400)
-                .body("parameterViolations[0].message", is("Name may not be blank!"));
+                .body("failedFields[0].message", is("Name may not be blank!"));
     }
 
     @Test
@@ -79,7 +79,7 @@ public class NodeResourceTest {
                 .post("/node")
             .then()
                 .statusCode(400)
-                .body("parameterViolations[0].message", is("Name may not be blank!"));
+                .body("failedFields[0].message", is("Name may not be blank!"));
     }
 
     @Test
@@ -92,7 +92,7 @@ public class NodeResourceTest {
                 .post("/node")
             .then()
                 .statusCode(400)
-                .body("parameterViolations[0].message", is("Type may not be null!"));
+                .body("failedFields[0].message", is("Type may not be null!"));
     }
 
     @Test
@@ -182,7 +182,7 @@ public class NodeResourceTest {
                 .post("/node")
             .then()
                 .statusCode(400)
-                .body("parameterViolations[0].message", is("Hidden may not be null!"));
+                .body("failedFields[0].message", is("Hidden may not be null!"));
     }
 
     @Test
@@ -195,7 +195,7 @@ public class NodeResourceTest {
                 .post("/node")
             .then()
                 .statusCode(400)
-                .body("parameterViolations[0].message", is("X may not be null!"));
+                .body("failedFields[0].message", is("X may not be null!"));
     }
 
     @Test
@@ -208,7 +208,7 @@ public class NodeResourceTest {
                 .post("/node")
             .then()
                 .statusCode(400)
-                .body("parameterViolations[0].message", is("Y may not be null!"));
+                .body("failedFields[0].message", is("Y may not be null!"));
     }
 
     @Test
@@ -221,7 +221,7 @@ public class NodeResourceTest {
                 .post("/node")
             .then()
                 .statusCode(400)
-                .body("parameterViolations[0].message", is("Z may not be null!"));
+                .body("failedFields[0].message", is("Z may not be null!"));
     }
 
     @Test
