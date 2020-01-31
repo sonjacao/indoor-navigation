@@ -38,6 +38,21 @@ public class NodeRepository extends BaseRepository {
         return executeNodeQuery(queryGetNode, parameters);
     }
 
+    public Node updateNode(String name, Node node) {
+        String query = "MATCH (p:Point) WHERE p.name = $nodeName " +
+                "SET p = { name: $name, type: $type, isHidden: $isHidden, x: $x, y: $y, z: $z } RETURN p";
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("nodeName", name);
+        parameters.put("name", node.getName());
+        parameters.put("type", node.getType().name());
+        parameters.put("isHidden", node.getIsHidden());
+        parameters.put("x", node.getX());
+        parameters.put("y", node.getY());
+        parameters.put("z", node.getZ());
+
+        return executeNodeQuery(query, parameters);
+    }
+
     public int deleteNode(String name) {
         String query = "MATCH (p:Point) WHERE p.name = $name DETACH DELETE p RETURN COUNT(p) as c";
         Map<String, Object> parameters = new HashMap<>();
