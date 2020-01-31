@@ -2,6 +2,7 @@ package at.htl.indoornav.resource;
 
 import at.htl.indoornav.entity.Node;
 import at.htl.indoornav.repository.NodeRepository;
+import at.htl.indoornav.repository.RelationshipRepository;
 
 import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
@@ -16,6 +17,9 @@ public class RelationshipResource {
     @Inject
     NodeRepository nodeRepository;
 
+    @Inject
+    RelationshipRepository relationshipRepository;
+
     @POST
     public Response createRelationship(@NotNull @QueryParam("start") String start, @NotNull @QueryParam("end") String end) {
         Node nodeStart = nodeRepository.getNode(start);
@@ -25,7 +29,7 @@ public class RelationshipResource {
             return Response.status(404).build();
         }
 
-        nodeRepository.createRelationship(nodeStart, nodeEnd);
+        relationshipRepository.createRelationship(nodeStart, nodeEnd);
         return Response.ok().build();
     }
 
