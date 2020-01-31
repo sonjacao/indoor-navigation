@@ -257,7 +257,7 @@ public class NodeResourceTest {
                 .body("name", is("5ahitm"))
                 .body("id", is(nodeId));
 
-        deleteNode(node.getName());
+        deleteNode(nodeUpdated.getName());
     }
 
     int createNode(Node node) {
