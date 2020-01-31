@@ -292,7 +292,7 @@ public class NodeResourceTest {
                 .contentType("application/json")
                 .queryParam("start", startName)
                 .queryParam("end", endName)
-                .post("/node/relationship")
+                .post("/relationship")
             .then()
                 .statusCode(200);
 
@@ -306,7 +306,7 @@ public class NodeResourceTest {
             .when()
                 .contentType("application/json")
                 .queryParam("end", "4ahitm")
-                .post("/node/relationship")
+                .post("/relationship")
             .then()
                 .statusCode(400);
     }
@@ -317,7 +317,7 @@ public class NodeResourceTest {
             .when()
                 .contentType("application/json")
                 .queryParam("start", "4ahitm")
-                .post("/node/relationship")
+                .post("/relationship")
             .then()
                 .statusCode(400);
     }
@@ -329,9 +329,9 @@ public class NodeResourceTest {
                 .contentType("application/json")
                 .queryParam("start", "69ahitm")
                 .queryParam("end", "96ahitm")
-                .post("/node/relationship")
+                .post("/relationship")
             .then()
-                .statusCode(400);
+                .statusCode(404);
     }
 
     void deleteNode(String name) {
