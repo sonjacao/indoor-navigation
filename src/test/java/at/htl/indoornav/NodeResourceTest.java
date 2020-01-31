@@ -271,6 +271,28 @@ public class NodeResourceTest {
                 .statusCode(404);
     }
 
+    @Test
+    void testUpdateWithEmptyName() {
+        Node node = new Node(null, "4ahitm", NodeType.FLOOR, false, 125f, 25f, 890f);
+        int nodeId = createNode(node);
+
+        Node nodeUpdated = new Node(null, null, NodeType.FLOOR, false, 125f, 25f, 890f);
+
+        given()
+            .when()
+                .contentType("application/json")
+                .body(jsonb.toJson(nodeUpdated))
+                .pathParam("name", node.getName())
+                .put("/node/{name}")
+            .then()
+                .statusCode(400)
+                .body("failedFields[0].key", is("name"))
+                .body("failedFields[0].value", is(""))
+                .body("failedFields[0].message", is("Name may not be blank!"));
+
+        deleteNode(node.getName());
+    }
+
     int createNode(Node node) {
         return given()
             .when()
