@@ -102,6 +102,41 @@ public class RelationshipResourceTest {
                 .statusCode(404);
     }
 
+    @Test
+    void testDeleteRelationship() {
+        Node startNode = new Node(null, "4ahitm", NodeType.FLOOR, false, 125f, 25f, 890f);
+        given()
+            .when()
+                .contentType("application/json")
+                .body(jsonb.toJson(startNode))
+                .post("/node")
+            .then()
+                .statusCode(200)
+                .body("name", is("4ahitm"));
+
+        Node endNode = new Node(null, "4bhitm", NodeType.FLOOR, false, 300f, 25f, 450f);
+        given()
+            .when()
+                .contentType("application/json")
+                .body(jsonb.toJson(endNode))
+                .post("/node")
+            .then()
+                .statusCode(200)
+                .body("name", is("4bhitm"));
+
+        given()
+            .when()
+                .contentType("application/json")
+                .queryParam("start", "4ahitm")
+                .queryParam("end", "4bhitm")
+                .delete("/relationship")
+            .then()
+                .statusCode(204);
+
+        deleteNode("4ahitm");
+        deleteNode("4bhitm");
+    }
+
     void deleteNode(String name) {
         given()
             .when()
