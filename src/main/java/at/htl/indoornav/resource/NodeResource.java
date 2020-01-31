@@ -60,7 +60,7 @@ public class NodeResource {
             return Response.status(400).entity(validation).build();
         }
 
-        return Response.noContent().build();
+        return Response.ok(nodeRepository.updateNode(name, node)).build();
     }
 
     @DELETE
