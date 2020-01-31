@@ -50,7 +50,7 @@ public class NodeResource {
     public Response updateNode(@PathParam("name") String name, Node node) {
         Node nodeToUpdate = nodeRepository.getNode(name);
         if (nodeToUpdate == null) {
-            return Response.status(400).build();
+            return Response.status(404).build();
         }
 
         Result validation = validationService.getValidationResult(node);
