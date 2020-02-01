@@ -66,7 +66,10 @@ public class NodeResource {
     @DELETE
     @Path("/{name}")
     public Response deleteNode(@PathParam("name") String name) {
-        nodeRepository.deleteNode(name);
+        int deleteCount = nodeRepository.deleteNode(name);
+        if (deleteCount == 0) {
+            return Response.status(404).build();
+        }
         return Response.ok().build();
     }
 }
