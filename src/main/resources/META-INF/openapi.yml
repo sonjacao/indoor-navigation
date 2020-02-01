@@ -7,9 +7,16 @@ info:
 paths:
   /node:
     get:
+      summary: Returns a list of nodes
       responses:
         200:
           description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Node'
     post:
       requestBody:
         content:
