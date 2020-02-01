@@ -201,3 +201,21 @@ components:
         distance:
           format: float
           type: number
+    FailedField:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+        message:
+          type: string
+    Result:
+      type: object
+      properties:
+        isSuccessful:
+          type: boolean
+        failedFields:
+          type: array
+          items:
+            $ref: '#/components/schemas/FailedField'
