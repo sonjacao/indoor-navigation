@@ -69,6 +69,7 @@ paths:
         404:
           description: Node with the specified name does not exist
     delete:
+      summary: Delete the node with the specified name
       parameters:
       - name: name
         in: path
@@ -78,6 +79,8 @@ paths:
       responses:
         200:
           description: OK
+        404:
+          description: Node with the specified name does not exist
   /path/handicapped:
     get:
       parameters:
