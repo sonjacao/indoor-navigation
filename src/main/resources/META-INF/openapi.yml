@@ -28,6 +28,7 @@ paths:
           description: OK
   /node/{name}:
     get:
+      summary: Returns a node with the sepcified name
       parameters:
       - name: name
         in: path
@@ -37,6 +38,12 @@ paths:
       responses:
         200:
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Node'
+        404:
+          description: Node with the specified name does not exist
     put:
       parameters:
       - name: name
