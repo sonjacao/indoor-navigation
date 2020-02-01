@@ -1,7 +1,8 @@
 ---
 openapi: 3.0.1
 info:
-  title: Generated API
+  title: Indoor Navigation API
+  description: This is the interface for communicating with the Indoor Navigation service.
   version: "1.0"
 paths:
   /node:
