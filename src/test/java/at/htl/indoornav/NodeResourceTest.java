@@ -293,6 +293,17 @@ public class NodeResourceTest {
         deleteNode(node.getName());
     }
 
+    @Test
+    void testDeleteNotExistingNode() {
+        given()
+            .when()
+                .contentType("application/json")
+                .pathParam("name", "69ahitm")
+                .delete("/node/{name}")
+            .then()
+                .statusCode(404);
+    }
+
     int createNode(Node node) {
         return given()
             .when()
