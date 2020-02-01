@@ -7,6 +7,8 @@ info:
 paths:
   /node:
     get:
+      tags:
+        - node
       summary: Returns a list of nodes
       responses:
         200:
@@ -18,6 +20,8 @@ paths:
                 items:
                   $ref: '#/components/schemas/Node'
     post:
+      tags:
+        - node
       summary: Create a new node
       requestBody:
         content:
@@ -39,6 +43,8 @@ paths:
                 $ref: '#/components/schemas/Result'
   /node/{name}:
     get:
+      tags:
+        - node
       summary: Returns a node with the sepcified name
       parameters:
       - name: name
@@ -56,6 +62,8 @@ paths:
         404:
           description: Node with the specified name does not exist
     put:
+      tags:
+        - node
       summary: Update the node with the specified name
       parameters:
       - name: name
@@ -80,6 +88,8 @@ paths:
         404:
           description: Node with the specified name does not exist
     delete:
+      tags:
+        - node
       summary: Delete the node with the specified name
       parameters:
       - name: name
@@ -94,6 +104,8 @@ paths:
           description: Node with the specified name does not exist
   /path/shortest:
     get:
+      tags:
+        - path
       summary: Return the shortest path from start to end
       parameters:
       - name: end
@@ -121,6 +133,8 @@ paths:
           description: Nodes with the specified start and end name do not exist
   /relationship:
     post:
+      tags:
+        - relationship
       summary: Create relationship between start and end node
       parameters:
       - name: end
@@ -141,6 +155,8 @@ paths:
         404:
           description: Start and/or end node with the specified name does not exist
     delete:
+      tags:
+        - relationship
       summary: Delete relationship between two specified names
       parameters:
       - name: end
