@@ -121,6 +121,7 @@ paths:
           description: Nodes with the specified start and end name do not exist
   /relationship:
     post:
+      summary: Create relationship between start and end node
       parameters:
       - name: end
         in: query
@@ -136,7 +137,9 @@ paths:
           nullable: false
       responses:
         200:
-          description: OK
+          description: Created relationship
+        404:
+          description: Start and/or end node with the specified name does not exist
     delete:
       summary: Delete relationship between two specified names
       parameters:
