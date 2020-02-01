@@ -1,0 +1,166 @@
+---
+openapi: 3.0.1
+info:
+  title: Generated API
+  version: "1.0"
+paths:
+  /node:
+    get:
+      responses:
+        200:
+          description: OK
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Node'
+      responses:
+        200:
+          description: OK
+  /node/{name}:
+    get:
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+    put:
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Node'
+      responses:
+        200:
+          description: OK
+    delete:
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+  /path/handicapped:
+    get:
+      parameters:
+      - name: end
+        in: query
+        schema:
+          type: string
+      - name: start
+        in: query
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+  /path/shortest:
+    get:
+      parameters:
+      - name: end
+        in: query
+        schema:
+          type: string
+      - name: start
+        in: query
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+  /relationship:
+    post:
+      parameters:
+      - name: end
+        in: query
+        required: true
+        schema:
+          type: string
+          nullable: false
+      - name: start
+        in: query
+        required: true
+        schema:
+          type: string
+          nullable: false
+      responses:
+        200:
+          description: OK
+    delete:
+      parameters:
+      - name: end
+        in: query
+        required: true
+        schema:
+          type: string
+          nullable: false
+      - name: start
+        in: query
+        required: true
+        schema:
+          type: string
+          nullable: false
+      responses:
+        200:
+          description: OK
+components:
+  schemas:
+    NodeType:
+      enum:
+      - ELEVATOR
+      - FLOOR
+      - STAIRS
+      type: string
+    Node:
+      required:
+      - isHidden
+      - type
+      - x
+      - y
+      - z
+      type: object
+      properties:
+        id:
+          format: int64
+          type: integer
+        isHidden:
+          type: boolean
+          nullable: false
+        name:
+          pattern: \S
+          type: string
+          nullable: false
+        type:
+          allOf:
+          - $ref: '#/components/schemas/NodeType'
+          - enum:
+            - ELEVATOR
+            - FLOOR
+            - STAIRS
+            nullable: false
+        x:
+          format: float
+          type: number
+          nullable: false
+        y:
+          format: float
+          type: number
+          nullable: false
+        z:
+          format: float
+          type: number
+          nullable: false
