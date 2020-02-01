@@ -22,18 +22,14 @@ public class PathResource {
     @GET
     @Path("/shortest")
     public Response getShortestPath(@QueryParam("start") String startName, @QueryParam("end") String endName) {
-        System.out.println(startName);
-        System.out.println(endName);
         if (startName == null || endName == null) {
             return Response.status(400).build();
         }
 
         Node startNode = nodeRepository.getNode(startName);
         Node endNode = nodeRepository.getNode(endName);
-        System.out.println("startNode = " + startNode);
-        System.out.println("endNode = " + endNode);
         if (startNode == null || endNode == null) {
-            return Response.status(400).build();
+            return Response.status(404).build();
         }
         return Response.ok(pathRepository.getShortestPath(startNode, endNode)).build();
     }
