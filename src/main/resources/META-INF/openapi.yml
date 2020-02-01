@@ -81,34 +81,33 @@ paths:
           description: OK
         404:
           description: Node with the specified name does not exist
-  /path/handicapped:
-    get:
-      parameters:
-      - name: end
-        in: query
-        schema:
-          type: string
-      - name: start
-        in: query
-        schema:
-          type: string
-      responses:
-        200:
-          description: OK
   /path/shortest:
     get:
+      summary: Return the shortest path from start to end
       parameters:
       - name: end
         in: query
+        required: true
         schema:
           type: string
       - name: start
         in: query
+        required: true
         schema:
           type: string
       responses:
         200:
           description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NodeDistance'
+        400:
+          description: Start or end name are empty
+        404:
+          description: Nodes with the specified start and end name do not exist
   /relationship:
     post:
       parameters:
@@ -191,3 +190,11 @@ components:
           format: float
           type: number
           nullable: false
+    NodeDistance:
+      type: object
+      properties:
+        node:
+          $ref: '#/components/schemas/Node'
+        distance:
+          format: float
+          type: number
