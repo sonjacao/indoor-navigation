@@ -45,6 +45,7 @@ paths:
         404:
           description: Node with the specified name does not exist
     put:
+      summary: Update the node with the specified name
       parameters:
       - name: name
         in: path
@@ -59,6 +60,14 @@ paths:
       responses:
         200:
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Node'
+        400:
+          description: Node is not valid
+        404:
+          description: Node with the specified name does not exist
     delete:
       parameters:
       - name: name
