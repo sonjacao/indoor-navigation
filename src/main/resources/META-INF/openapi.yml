@@ -18,6 +18,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/Node'
     post:
+      summary: Create a new node
       requestBody:
         content:
           application/json:
@@ -25,7 +26,17 @@ paths:
               $ref: '#/components/schemas/Node'
       responses:
         200:
-          description: OK
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Node'
+        400:
+          description: Node not valid, return violations
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result'
   /node/{name}:
     get:
       summary: Returns a node with the sepcified name
