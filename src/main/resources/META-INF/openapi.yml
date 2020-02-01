@@ -127,6 +127,7 @@ paths:
         200:
           description: OK
     delete:
+      summary: Delete relationship between two specified names
       parameters:
       - name: end
         in: query
@@ -143,6 +144,8 @@ paths:
       responses:
         200:
           description: OK
+        404:
+          description: Nodes with the specified start and end name do not exist
 components:
   schemas:
     NodeType:
