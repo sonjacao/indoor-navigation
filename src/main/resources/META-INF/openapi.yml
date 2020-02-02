@@ -205,6 +205,13 @@ paths:
           description: OK
         404:
           description: Nodes with the specified start and end name do not exist
+tags:
+  - name: node
+    description: Everything about nodes
+  - name: path
+    description: Calculate the shortest path between two nodes
+  - name: relationship
+    description: Connection between two nodes
 components:
   schemas:
     NodeType:
@@ -216,20 +223,17 @@ components:
     Node:
       required:
       - isHidden
+      - name
       - type
       - x
       - y
       - z
       type: object
       properties:
-        id:
-          format: int64
-          type: integer
         isHidden:
           type: boolean
           nullable: false
         name:
-          pattern: \S
           type: string
           nullable: false
         type:
