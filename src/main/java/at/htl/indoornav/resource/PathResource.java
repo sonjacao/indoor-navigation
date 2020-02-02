@@ -22,6 +22,16 @@ public class PathResource {
     @GET
     @Path("/shortest")
     public Response getShortestPath(@QueryParam("start") String startName, @QueryParam("end") String endName) {
+        return shortestPathForStartAndEnd(startName, endName, false);
+    }
+
+    @GET
+    @Path("/handicapped")
+    public Response getShortestPathForHandicapped(@QueryParam("start") String nameStart, @QueryParam("end") String nameEnd) {
+        return shortestPathForStartAndEnd(nameStart, nameEnd, true);
+    }
+
+    private Response shortestPathForStartAndEnd(String startName, String endName, boolean isHandicapped) {
         if (startName == null || endName == null) {
             return Response.status(400).build();
         }
@@ -31,15 +41,10 @@ public class PathResource {
         if (startNode == null || endNode == null) {
             return Response.status(404).build();
         }
+
+        if (isHandicapped) {
+            return Response.ok(pathRepository.getShortestPathForHandicapped(startNode, endNode)).build();
+        }
         return Response.ok(pathRepository.getShortestPath(startNode, endNode)).build();
-    }
-
-    @GET
-    @Path("/handicapped")
-    public Response getShortestPathForHandicapped(@QueryParam("start") String nameStart, @QueryParam("end") String nameEnd) {
-        Node startNode = nodeRepository.getNode(nameStart);
-        Node endNode = nodeRepository.getNode(nameEnd);
-
-        return Response.ok(pathRepository.getShortestPathForHandicapped(startNode, endNode)).build();
     }
 }
