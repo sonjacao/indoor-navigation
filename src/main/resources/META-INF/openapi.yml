@@ -131,6 +131,35 @@ paths:
           description: Start or end name are empty
         404:
           description: Nodes with the specified start and end name do not exist
+  /path/handicapped:
+    get:
+      tags:
+        - path
+      summary: Return the shortest path from start to end for handicapped people
+      parameters:
+        - name: end
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: start
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NodeDistance'
+        400:
+          description: Start or end name are empty
+        404:
+          description: Nodes with the specified start and end name do not exist
   /relationship:
     post:
       tags:
