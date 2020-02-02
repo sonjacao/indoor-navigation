@@ -204,7 +204,8 @@ components:
           type: string
           nullable: false
         type:
-          $ref: '#/components/schemas/NodeType'
+          allOf:
+            - $ref: '#/components/schemas/NodeType'
           nullable: false
         x:
           format: float
