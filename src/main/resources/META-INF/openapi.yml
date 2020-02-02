@@ -204,13 +204,8 @@ components:
           type: string
           nullable: false
         type:
-          allOf:
-          - $ref: '#/components/schemas/NodeType'
-          - enum:
-            - ELEVATOR
-            - FLOOR
-            - STAIRS
-            nullable: false
+          $ref: '#/components/schemas/NodeType'
+          nullable: false
         x:
           format: float
           type: number
