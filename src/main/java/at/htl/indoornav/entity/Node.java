@@ -7,7 +7,6 @@ import javax.validation.constraints.NotNull;
 
 public class Node {
 
-    private Long id;
     @NotBlank(message = "Name may not be blank!")
     @UniqueName(message = "Name is already in use!")
     private String name;
@@ -22,8 +21,7 @@ public class Node {
     @NotNull(message = "Z may not be null!")
     private Float z;
 
-    public Node(Long id, String name, NodeType type, Boolean isHidden, Float x, Float y, Float z) {
-        this.id = id;
+    public Node(String name, NodeType type, Boolean isHidden, Float x, Float y, Float z) {
         this.name = name;
         this.type = type;
         this.isHidden = isHidden;
@@ -37,13 +35,9 @@ public class Node {
 
     public static Node from(org.neo4j.driver.types.Node node) {
         return new Node(
-                node.id(), node.get("name").asString(), NodeType.valueOf(node.get("type").asString()),
+                node.get("name").asString(), NodeType.valueOf(node.get("type").asString()),
                 node.get("isHidden").asBoolean(), node.get("x").asFloat(), node.get("y").asFloat(), node.get("z").asFloat()
         );
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public String getName() {
@@ -106,8 +100,7 @@ public class Node {
     @Override
     public String toString() {
         return "Node{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
+                "name='" + name + '\'' +
                 ", type=" + type +
                 ", isHidden=" + isHidden +
                 ", x=" + x +

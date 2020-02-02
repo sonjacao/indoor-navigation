@@ -16,12 +16,12 @@ public class RelationshipRepository extends BaseRepository {
                 Math.pow(end.getZ() - start.getZ(), 2)
         );
 
-        String query = "MATCH (a:Point), (b:Point) WHERE ID(a) = $start AND ID(b) = $end " +
+        String query = "MATCH (a:Point), (b:Point) WHERE a.name = $start AND b.name = $end " +
                 "CREATE (a)-[c:CONNECTED_TO { distance: $distance }]->(b) RETURN COUNT(c) as c";
 
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("start", start.getId());
-        parameters.put("end", end.getId());
+        parameters.put("start", start.getName());
+        parameters.put("end", end.getName());
         parameters.put("distance", distance);
 
         return executeUpdate(query, parameters);

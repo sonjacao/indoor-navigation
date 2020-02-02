@@ -29,10 +29,10 @@ public class RelationshipResourceTest {
 
     @Test
     void testCreateRelationship() {
-        Node startNode = new Node(null, "4ahitm", NodeType.FLOOR, false, 125f, 25f, 890f);
+        Node startNode = new Node("4ahitm", NodeType.FLOOR, false, 125f, 25f, 890f);
         createNode(startNode);
 
-        Node endNode = new Node(null, "4bhitm", NodeType.FLOOR, false, 300f, 25f, 450f);
+        Node endNode = new Node("4bhitm", NodeType.FLOOR, false, 300f, 25f, 450f);
         createNode(endNode);
 
         given()
@@ -84,10 +84,10 @@ public class RelationshipResourceTest {
 
     @Test
     void testDeleteRelationship() {
-        Node startNode = new Node(null, "4ahitm", NodeType.FLOOR, false, 125f, 25f, 890f);
+        Node startNode = new Node("4ahitm", NodeType.FLOOR, false, 125f, 25f, 890f);
         createNode(startNode);
 
-        Node endNode = new Node(null, "4bhitm", NodeType.FLOOR, false, 300f, 25f, 450f);
+        Node endNode = new Node("4bhitm", NodeType.FLOOR, false, 300f, 25f, 450f);
         createNode(endNode);
 
         given()

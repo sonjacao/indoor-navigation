@@ -40,14 +40,14 @@ public class NodeResourceTest {
 
     @Test
     void testCreateNode() {
-        Node node = new Node(null, "4ahitm", NodeType.FLOOR, false, 125f, 25f, 890f);
+        Node node = new Node("4ahitm", NodeType.FLOOR, false, 125f, 25f, 890f);
         createNode(node);
         deleteNode(node.getName());
     }
 
     @Test
     void testCreateNodeWithoutName() {
-        Node node = new Node(null, null, NodeType.FLOOR, false, 125f, 25f, 890f);
+        Node node = new Node(null, NodeType.FLOOR, false, 125f, 25f, 890f);
         given()
             .when()
                 .contentType("application/json")
@@ -60,7 +60,7 @@ public class NodeResourceTest {
 
     @Test
     void testCreateNodeWithBlankName() {
-        Node node = new Node(null, "", NodeType.FLOOR, false, 125f, 25f, 890f);
+        Node node = new Node("", NodeType.FLOOR, false, 125f, 25f, 890f);
         given()
             .when()
                 .contentType("application/json")
@@ -73,7 +73,7 @@ public class NodeResourceTest {
 
     @Test
     void testCreateNodeWithoutNodeType() {
-        Node node = new Node(null, "4ahitm", null, false, 125f, 25f, 890f);
+        Node node = new Node("4ahitm", null, false, 125f, 25f, 890f);
         given()
             .when()
                 .contentType("application/json")
@@ -157,7 +157,7 @@ public class NodeResourceTest {
 
     @Test
     void testCreateNodeWithoutHidden() {
-        Node node = new Node(null, "4ahitm", NodeType.FLOOR, null, 125f, 25f, 890f);
+        Node node = new Node("4ahitm", NodeType.FLOOR, null, 125f, 25f, 890f);
         given()
             .when()
                 .contentType("application/json")
@@ -170,7 +170,7 @@ public class NodeResourceTest {
 
     @Test
     void testCreateNodeWithoutX() {
-        Node node = new Node(null, "4ahitm", NodeType.FLOOR, false, null, 25f, 890f);
+        Node node = new Node("4ahitm", NodeType.FLOOR, false, null, 25f, 890f);
         given()
             .when()
                 .contentType("application/json")
@@ -183,7 +183,7 @@ public class NodeResourceTest {
 
     @Test
     void testCreateNodeWithoutY() {
-        Node node = new Node(null, "4ahitm", NodeType.FLOOR, false, 125f, null, 890f);
+        Node node = new Node("4ahitm", NodeType.FLOOR, false, 125f, null, 890f);
         given()
             .when()
                 .contentType("application/json")
@@ -196,7 +196,7 @@ public class NodeResourceTest {
 
     @Test
     void testCreateNodeWithoutZ() {
-        Node node = new Node(null, "4ahitm", NodeType.FLOOR, false, 125f, 25f, null);
+        Node node = new Node("4ahitm", NodeType.FLOOR, false, 125f, 25f, null);
         given()
             .when()
                 .contentType("application/json")
@@ -209,7 +209,7 @@ public class NodeResourceTest {
 
     @Test
     void testGetNode() {
-        Node node = new Node(null, "4ahitm", NodeType.FLOOR, false, 125f, 25f, 890f);
+        Node node = new Node("4ahitm", NodeType.FLOOR, false, 125f, 25f, 890f);
         given()
             .when()
                 .contentType("application/json")
@@ -241,10 +241,10 @@ public class NodeResourceTest {
 
     @Test
     void testUpdateNodeName() {
-        Node node = new Node(null, "4ahitm", NodeType.FLOOR, false, 125f, 25f, 890f);
-        int nodeId = createNode(node);
+        Node node = new Node("4ahitm", NodeType.FLOOR, false, 125f, 25f, 890f);
+        createNode(node);
 
-        Node nodeUpdated = new Node(null, "5ahitm", NodeType.FLOOR, false, 125f, 25f, 890f);
+        Node nodeUpdated = new Node("5ahitm", NodeType.FLOOR, false, 125f, 25f, 890f);
 
         given()
             .when()
@@ -254,8 +254,7 @@ public class NodeResourceTest {
                 .put("/node/{name}")
             .then()
                 .statusCode(200)
-                .body("name", is("5ahitm"))
-                .body("id", is(nodeId));
+                .body("name", is("5ahitm"));
 
         deleteNode(nodeUpdated.getName());
     }
@@ -273,10 +272,10 @@ public class NodeResourceTest {
 
     @Test
     void testUpdateWithEmptyName() {
-        Node node = new Node(null, "4ahitm", NodeType.FLOOR, false, 125f, 25f, 890f);
-        int nodeId = createNode(node);
+        Node node = new Node("4ahitm", NodeType.FLOOR, false, 125f, 25f, 890f);
+        createNode(node);
 
-        Node nodeUpdated = new Node(null, null, NodeType.FLOOR, false, 125f, 25f, 890f);
+        Node nodeUpdated = new Node(null, NodeType.FLOOR, false, 125f, 25f, 890f);
 
         given()
             .when()
@@ -304,7 +303,7 @@ public class NodeResourceTest {
                 .statusCode(404);
     }
 
-    int createNode(Node node) {
+    String createNode(Node node) {
         return given()
             .when()
                 .contentType("application/json")
@@ -315,7 +314,7 @@ public class NodeResourceTest {
                 .body("name", is(node.getName()))
                 .extract()
                     .jsonPath()
-                    .getInt("id");
+                    .getString("name");
     }
 
     void deleteNode(String name) {

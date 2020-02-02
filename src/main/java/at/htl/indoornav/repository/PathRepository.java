@@ -45,7 +45,6 @@ public class PathRepository extends BaseRepository {
             String nodeName = record.get("name").asString();
             Node node = nodeRepository.getNode(nodeName);
             JsonObjectBuilder jsonNode = Json.createObjectBuilder()
-                    .add("id", node.getId())
                     .add("name", node.getName())
                     .add("type", node.getType().name())
                     .add("isHidden", node.getIsHidden())
