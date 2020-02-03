@@ -25,7 +25,10 @@ docker run --publish=7474:7474 --publish=7687:7687 --env 'NEO4J_AUTH=neo4j/secre
 docker run --rm -p 1883:1883 eclipse-mosquitto
 ----
 
-* In order to run the Indoor Navigation Application you have to run `./mvnw compile quarkus:dev`
+* In order to run the Indoor Navigation Application you have to run
+----
+./mvnw compile quarkus:dev
+----
 
 Now the service should be running on port 8080.
 
