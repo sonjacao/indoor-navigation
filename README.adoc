@@ -4,7 +4,7 @@ A Indoor Navigation Application showing the shortest path from one node to anoth
 
 ## Technologies and Frameworks used
 
-* Java 8 or higher
+* Java 8
 * Apache Maven 3.5.3 or higher
 * Quarkus
 * Eclipse Mosquitto
@@ -80,7 +80,7 @@ image::images/indoor-navigation-swagger-04.png[Specifying node names]
 
 After you have created some nodes and connected them your Neo4j database could look like this:
 
-image::images/indoor-navigation-swagger-05.png[Neo4j Database]
+image::images/indoor-navigation-swagger-05.jpeg[Neo4j Database]
 
 For getting the shortest path from _Information Stand_ to _4ahitm_ you can
 link:http://localhost:8080/path/shortest?start=Information%20Stand&end=4ahitm[send a request] in your browser. +
