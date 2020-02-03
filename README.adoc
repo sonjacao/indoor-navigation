@@ -20,7 +20,10 @@ link:https://github.com/sonjacao/indoor-navigation/archive/master.zip[here] as a
 docker run --publish=7474:7474 --publish=7687:7687 --env 'NEO4J_AUTH=neo4j/secret' --env 'NEO4JLABS_PLUGINS=["graph-algorithms"]' --env 'NEO4J_dbms_security_procedures_unrestricted=algo.*' neo4j:3.5.14
 ----
 
-* To start Mosquitto you have to open another terminal and execute `docker run --rm -p 1883:1883 eclipse-mosquitto
+* To start Mosquitto you have to open another terminal and execute `
+----
+docker run --rm -p 1883:1883 eclipse-mosquitto
+----
 
 * In order to run the Indoor Navigation Application you have to run `./mvnw compile quarkus:dev`
 
