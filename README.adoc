@@ -13,7 +13,7 @@ A Indoor Navigation Application showing the shortest path from one node to anoth
 ## Quickstart
 
 * Clone the repo: https://github.com/sonjacao/indoor-navigation.git or download it
-link:https://github.com/sonjacao/indoor-navigation/archive/master.zip[here] as a the zip file
+link:https://github.com/sonjacao/indoor-navigation/archive/master.zip[here] as a zip file
 
 * Open a terminal and run the following command to start the Neo4j Database:
 ----
@@ -38,22 +38,22 @@ This application allows you to create, read, update and delete nodes as well as 
 and displays the shortest path from a specified start node to an specified end node. +
 You can use these services link:http://localhost:8080/swagger-ui/[here].
 
-image::assets/indoor-navigation-swagger-01.png[Swagger UI]
+image::images/indoor-navigation-swagger-01.png[Swagger UI]
 
 To use the desired service you must click on it so it opens up and then click on the _Try it out_ button.
 
-image::assets/indoor-navigation-swagger-02.png[Request service]
+image::images/indoor-navigation-swagger-02.png[Request service]
 
 In some cases you need to specify a node name to pass it as a query parameter or the values of a node. +
 Once you are done you can execute the query else you can cancel it as well.
 
-image::assets/indoor-navigation-swagger-03.png[Execute or cancel]
+image::images/indoor-navigation-swagger-03.png[Execute or cancel]
 
 If you want to calculate the shortest path from one node to another you must specify the names of a start
 and an end node. +
 For creating a relationship you must specify the names of two nodes, too.
 
-image::assets/indoor-navigation-swagger-04.png[Specifying node names]
+image::images/indoor-navigation-swagger-04.png[Specifying node names]
 
 ### Node structure
 
@@ -61,7 +61,7 @@ image::assets/indoor-navigation-swagger-04.png[Specifying node names]
 ----
 [
   {
-    "isHidden": true,
+    "isHidden": false,
     "name": "4ahitm",
     "type": "FLOOR",
     "x": 120.45,
@@ -80,13 +80,13 @@ image::assets/indoor-navigation-swagger-04.png[Specifying node names]
 
 After you have created some nodes and connected them your Neo4j database could look like this:
 
-image::assets/indoor-navigation-swagger-05.png[Neo4j Database]
+image::images/indoor-navigation-swagger-05.png[Neo4j Database]
 
 For getting the shortest path from _Information Stand_ to _4ahitm_ you can
 link:http://localhost:8080/path/shortest?start=Information%20Stand&end=4ahitm[send a request] in your browser. +
 Or you can use _GET /path/shortest_ of the Swagger UI under the tag *path*.
 
-The result body looks like this:
+The result body could look like this:
 
 [source,json]
 ----
