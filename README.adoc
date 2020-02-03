@@ -1,1 +1,138 @@
 # Indoor Navigation
+
+A Indoor Navigation Application showing the shortest path from one node to another.
+
+## Technologies and Frameworks used
+
+* Java 8 or higher
+* Apache Maven 3.5.3 or higher
+* Quarkus
+* Eclipse Mosquitto
+* Neo4j
+
+## Quickstart
+
+* Clone the repo: https://github.com/sonjacao/indoor-navigation.git or download it
+link:https://github.com/sonjacao/indoor-navigation/archive/master.zip[here] as a the zip file
+
+* Open a terminal and run the following command to start the Neo4j Database:
+----
+docker run --publish=7474:7474 --publish=7687:7687 --env 'NEO4J_AUTH=neo4j/secret' --env 'NEO4JLABS_PLUGINS=["graph-algorithms"]' --env 'NEO4J_dbms_security_procedures_unrestricted=algo.*' neo4j:3.5.14
+----
+
+* To start Mosquitto you have to open another terminal and execute `docker run --rm -p 1883:1883 eclipse-mosquitto
+
+* In order to run the Indoor Navigation Application you have to run `./mvnw compile quarkus:dev`
+
+Now the service should be running on port 8080.
+
+## Usage
+
+This application allows you to create, read, update and delete nodes as well as their connections (relationship)
+and displays the shortest path from a specified start node to an specified end node. +
+You can use these services link:http://localhost:8080/swagger-ui/[here].
+
+image::assets/indoor-navigation-swagger-01.png[Swagger UI]
+
+To use the desired service you must click on it so it opens up and then click on the _Try it out_ button.
+
+image::assets/indoor-navigation-swagger-02.png[Request service]
+
+In some cases you need to specify a node name to pass it as a query parameter or the values of a node. +
+Once you are done you can execute the query else you can cancel it as well.
+
+image::assets/indoor-navigation-swagger-03.png[Execute or cancel]
+
+If you want to calculate the shortest path from one node to another you must specify the names of a start
+and an end node. +
+For creating a relationship you must specify the names of two nodes, too.
+
+image::assets/indoor-navigation-swagger-04.png[Specifying node names]
+
+### Node structure
+
+[source,json]
+----
+[
+  {
+    "isHidden": true,
+    "name": "4ahitm",
+    "type": "FLOOR",
+    "x": 120.45,
+    "y": 1250.67,
+    "z": 12.55
+  }
+]
+----
+
+* *isHidden* specifies whether a node is visible (e. g. rooms) or not (e. g. nodes in front of a door)
+* *name* defines the name of the node (e. g. Cafeteria, Meeting Room 1)
+* *type* represents if the node is `FLOOR`, an `ELEVATOR` or a `STAIRS` node
+* *x, y* and *z* are the coordinates of the node
+
+## Example
+
+After you have created some nodes and connected them your Neo4j database could look like this:
+
+image::assets/indoor-navigation-swagger-05.png[Neo4j Database]
+
+For getting the shortest path from _Information Stand_ to _4ahitm_ you can
+link:http://localhost:8080/path/shortest?start=Information%20Stand&end=4ahitm[send a request] in your browser. +
+Or you can use _GET /path/shortest_ of the Swagger UI under the tag *path*.
+
+The result body looks like this:
+
+[source,json]
+----
+[
+  {
+    "node": {
+      "name": "Information Stand",
+      "type": "FLOOR",
+      "isHidden": false,
+      "x": 1250,
+      "y": 80,
+      "z": -1722
+    },
+    "distance": 0
+  },
+  {
+    "node": {
+      "name": "Floor 1.1",
+      "type": "FLOOR",
+      "isHidden": true,
+      "x": 2590,
+      "y": 150,
+      "z": -1722
+    },
+    "distance": 1341.8271484375
+  },
+  {
+    "node": {
+      "name": "Floor 1.3",
+      "type": "FLOOR",
+      "isHidden": true,
+      "x": 1290,
+      "y": 200,
+      "z": -1722
+    },
+    "distance": 2642.788330078125
+  },
+  {
+    "node": {
+      "name": "4ahitm",
+      "type": "FLOOR",
+      "isHidden": false,
+      "x": 2728,
+      "y": 80,
+      "z": 1320
+    },
+    "distance": 6009.68701171875
+  }
+]
+----
+
+* The first object is the specified start node.
+* The last object is the specified end node.
+* The key *distance* shows you how far it is from the start node to another.
+The total distance is displayed in the last object, here it is `"distance": 6009.68701171875`
